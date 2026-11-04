@@ -220,7 +220,6 @@
       box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
     }
 
-    /* Split Visual Grid */
     .visual-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -300,7 +299,6 @@
     .dot.active { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
     .dot.damaged { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
 
-    /* Skeleton Vector Model Frame */
     .skeleton-container {
       width: 100%;
       height: 380px;
@@ -316,12 +314,10 @@
     }
 
     .skeleton-svg {
-      width: 80%;
-      height: 90%;
-      filter: drop-shadow(0 0 12px rgba(0,0,0,0.8));
+      width: 180px;
+      height: 350px;
     }
 
-    /* Diagnostics & Body Affects Box */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -406,42 +402,6 @@
       line-height: 1.4;
     }
 
-    .citations-card ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .citations-card li {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-      padding-left: 20px;
-      position: relative;
-    }
-
-    .citations-card li::before {
-      content: '◆';
-      color: var(--accent-cyan);
-      font-size: 0.8rem;
-      position: absolute;
-      left: 0;
-      top: 3px;
-    }
-
-    .citations-card a {
-      color: var(--accent-blue);
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 4px;
-    }
-
-    .citations-card a:hover {
-      color: var(--accent-cyan);
-      text-decoration: underline;
-    }
-
     .shake {
       animation: shakeAnim 0.4s cubic-bezier(.36,.07,.19,.97) both;
     }
@@ -465,7 +425,6 @@
   <main class="app-container">
     <div class="simulator-layout">
 
-      <!-- LEFT COLUMN: CONTROLS -->
       <section class="controls-column">
         <div class="card">
           <h2>Standard Impact Presets</h2>
@@ -501,14 +460,12 @@
         </div>
 
         <div class="card">
-          <button id="reset-brain-btn" class="reset-btn">Re-initialize 10,000 Neural Nodes & Vascular Network</button>
+          <button id="reset-brain-btn" class="reset-btn">Reset Simulator & Body Model</button>
         </div>
       </section>
 
-      <!-- RIGHT COLUMN: VISUALIZERS & BODY AFFECTS -->
       <section class="visual-column">
         
-        <!-- VISUAL GRID: BRAIN + SKELETON MODEL -->
         <div class="visual-grid">
           <div class="card canvas-card">
             <div class="canvas-header">
@@ -520,64 +477,59 @@
             </div>
             <div class="legend-bar">
               <span class="legend-item"><span class="dot active"></span> Active</span>
-              <span class="legend-item"><span class="dot damaged"></span> Sheared</span>
+              <span class="legend-item"><span class="dot damaged"></span> Damaged</span>
             </div>
           </div>
 
           <div class="card canvas-card">
             <div class="canvas-header">
-              <h2>Full Body Circulation & Impact</h2>
-              <span class="live-badge">VASCULAR MODEL</span>
+              <h2>Body & Blood Flow Model</h2>
+              <span class="live-badge">SKELETON MODEL</span>
             </div>
             <div id="skeleton-container" class="skeleton-container">
-              <!-- Full Body Skeleton Vector with Dynamic Blood Flow Pathways -->
+              <!-- Clear Skeleton & Vascular Vector Model -->
               <svg class="skeleton-svg" viewBox="0 0 200 400">
-                <!-- Skeleton Frame -->
-                <g fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round">
+                <!-- Skeleton Bone Structure -->
+                <g fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round">
                   <!-- Skull -->
-                  <ellipse cx="100" cy="35" rx="16" ry="20" />
+                  <ellipse cx="100" cy="45" rx="18" ry="22" stroke="#cbd5e1" />
                   <!-- Spine -->
-                  <line x1="100" y1="55" x2="100" y2="180" stroke-width="3" />
-                  <!-- Ribcage & Shoulders -->
-                  <line x1="65" y1="75" x2="135" y2="75" />
-                  <path d="M 80 80 Q 100 110 120 80 M 75 95 Q 100 130 125 95 M 75 110 Q 100 140 125 110" opacity="0.6"/>
+                  <line x1="100" y1="67" x2="100" y2="190" stroke-width="3" />
+                  <!-- Ribcage -->
+                  <line x1="65" y1="85" x2="135" y2="85" />
+                  <path d="M 75 90 Q 100 120 125 90 M 72 105 Q 100 138 128 105 M 72 120 Q 100 150 128 120" opacity="0.7"/>
                   <!-- Pelvis -->
-                  <polygon points="75,180 125,180 110,210 90,210" fill="none" />
+                  <polygon points="75,190 125,190 115,220 85,220" fill="none" />
                   <!-- Arms -->
-                  <line x1="65" y1="75" x2="45" y2="135" />
-                  <line x1="45" y1="135" x2="35" y2="185" />
-                  <line x1="135" y1="75" x2="155" y2="135" />
-                  <line x1="155" y1="135" x2="165" y2="185" />
+                  <line x1="65" y1="85" x2="45" y2="145" />
+                  <line x1="45" y1="145" x2="35" y2="195" />
+                  <line x1="135" y1="85" x2="155" y2="145" />
+                  <line x1="155" y1="145" x2="165" y2="195" />
                   <!-- Legs -->
-                  <line x1="85" y1="210" x2="80" y2="295" />
-                  <line x1="80" y1="295" x2="75" y2="375" />
-                  <line x1="115" y1="210" x2="120" y2="295" />
-                  <line x1="120" y1="295" x2="125" y2="375" />
+                  <line x1="85" y1="220" x2="80" y2="300" />
+                  <line x1="80" y1="300" x2="75" y2="380" />
+                  <line x1="115" y1="220" x2="120" y2="300" />
+                  <line x1="120" y1="300" x2="125" y2="380" />
                 </g>
 
-                <!-- Dynamic Vascular & Organ Highlights (Dynamic Color Shifts) -->
-                <!-- Head & Brain System -->
-                <ellipse id="body-brain" cx="100" cy="35" rx="13" ry="16" fill="#38bdf8" opacity="0.3" />
-                <!-- Eyes & Visual Pathway -->
-                <circle id="body-eyes" cx="93" cy="30" r="3" fill="#38bdf8" />
-                <circle id="body-eyes-2" cx="107" cy="30" r="3" fill="#38bdf8" />
-                <!-- Cervical Spine & Neck -->
-                <line id="body-neck" x1="100" y1="55" x2="100" y2="75" stroke="#38bdf8" stroke-width="4" />
-                <!-- Heart & Main Circulation Arteries -->
-                <circle id="body-heart" cx="108" cy="95" r="8" fill="#38bdf8" />
-                <path id="body-arteries" d="M 100 55 L 100 180 M 100 75 L 65 75 M 100 75 L 135 75 M 100 180 L 85 210 L 80 375 M 100 180 L 115 210 L 120 375" stroke="#38bdf8" stroke-width="1.5" opacity="0.4" />
+                <!-- Dynamic Organs & Blood Vessels -->
+                <ellipse id="body-brain" cx="100" cy="45" rx="14" ry="17" fill="#38bdf8" opacity="0.4" />
+                <circle id="body-eyes" cx="93" cy="38" r="3.5" fill="#38bdf8" />
+                <circle id="body-eyes-2" cx="107" cy="38" r="3.5" fill="#38bdf8" />
+                <line id="body-neck" x1="100" y1="67" x2="100" y2="85" stroke="#38bdf8" stroke-width="5" />
+                <circle id="body-heart" cx="108" cy="105" r="9" fill="#38bdf8" />
+                <path id="body-arteries" d="M 100 67 L 100 190 M 100 85 L 65 85 M 100 85 L 135 85 M 100 190 L 85 220 L 80 380 M 100 190 L 115 220 L 120 380" stroke="#38bdf8" stroke-width="2" opacity="0.5" />
               </svg>
             </div>
             <div class="legend-bar">
               <span class="legend-item"><span class="dot active"></span> Normal Flow</span>
-              <span class="legend-item"><span class="dot damaged"></span> Restricted / Affected</span>
+              <span class="legend-item"><span class="dot damaged"></span> Affected Area</span>
             </div>
           </div>
         </div>
 
-        <!-- TELEMETRY & BODY AFFECTS BOX -->
         <div class="card">
-          <h2>Kinetic Diagnostics & Body System Affects</h2>
+          <h2>Kinetic Diagnostics & Body Effects</h2>
           <div class="stats-grid">
             <div class="stat-card">
               <span class="stat-label">Active Neural Capacity</span>
@@ -597,42 +549,27 @@
             </div>
           </div>
 
-          <!-- Dynamic Body System Affects Details Box -->
           <div class="body-affects-box">
-            <h3>Concussion Trauma & Body Affects <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
+            <h3>Concussion Symptoms & Body Impact <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
             <div class="affects-list">
               <div class="affect-item">
-                <strong>1. Head & Brain System</strong>
-                <p id="affect-brain">No trauma. Brain tissue is functioning normally within normal cerebral blood flow limits.</p>
+                <strong>1. Head & Thinking</strong>
+                <p id="affect-brain">No trauma. Clear focus, normal memory, and healthy brain activity.</p>
               </div>
               <div class="affect-item">
                 <strong>2. Neck & Spine</strong>
-                <p id="affect-neck">No cervical strain. Spinal alignment and neck muscles are completely unaffected.</p>
+                <p id="affect-neck">No neck strain or stiffness. Muscles and posture are fully relaxed.</p>
               </div>
               <div class="affect-item">
-                <strong>3. Vision & Eyes</strong>
-                <p id="affect-eyes">Normal pupil response and clear visual focus. No light sensitivity reported.</p>
+                <strong>3. Eyes & Vision</strong>
+                <p id="affect-eyes">Normal vision and steady focus. No light sensitivity or blurriness.</p>
               </div>
               <div class="affect-item">
-                <strong>4. Heart Rate & Blood Flow</strong>
-                <p id="affect-heart">Stable resting heart rate and standard autonomic vascular regulation throughout the body.</p>
+                <strong>4. Heart & Blood Flow</strong>
+                <p id="affect-heart">Steady resting heart rate and normal blood circulation throughout the body.</p>
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="card citations-card">
-          <h2>Peer-Reviewed Concussion Data Sources</h2>
-          <ul>
-            <li>
-              <strong>NIH / NCBI Research:</strong> Human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g.
-              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169720/" target="_blank" rel="noopener">Read NCBI Study</a>
-            </li>
-            <li>
-              <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions.
-              <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Ratings</a>
-            </li>
-          </ul>
         </div>
       </section>
 
@@ -656,14 +593,12 @@
       const lastImpactValEl = document.getElementById('last-impact-val');
       const resetBtn = document.getElementById('reset-brain-btn');
 
-      // Body Affects Elements
       const severityBadge = document.getElementById('severity-badge');
       const affectBrain = document.getElementById('affect-brain');
       const affectNeck = document.getElementById('affect-neck');
       const affectEyes = document.getElementById('affect-eyes');
       const affectHeart = document.getElementById('affect-heart');
 
-      // Skeleton Vector SVG Elements
       const bodyBrain = document.getElementById('body-brain');
       const bodyEyes1 = document.getElementById('body-eyes');
       const bodyEyes2 = document.getElementById('body-eyes-2');
@@ -755,12 +690,10 @@
         return { joules: Math.round(energyJoules), gForce: Math.max(gForce, 1) };
       }
 
-      // Convert impact severity into dynamic RGB Redness (Lighter Red -> Dark Deep Red)
       function getRedShade(severityFactor) {
-        // severityFactor goes from 0.0 to 1.0
-        const red = Math.round(255 - severityFactor * 130); // 255 down to 125
-        const green = Math.round(100 * (1 - severityFactor)); // 100 down to 0
-        const blue = Math.round(100 * (1 - severityFactor));  // 100 down to 0
+        const red = Math.round(255 - severityFactor * 140);
+        const green = Math.round(110 * (1 - severityFactor));
+        const blue = Math.round(110 * (1 - severityFactor));
         return `rgb(${red}, ${green}, ${blue})`;
       }
 
@@ -800,13 +733,11 @@
         gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
         lastImpactValEl.textContent = name;
 
-        // Calculate severity ratio for color transition (0 = healthy, 1 = maximum destruction)
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
 
-        // Update Skeleton Vascular Highlights with dynamic darkness of red
         if (physics.gForce < 20) {
-          severityBadge.textContent = 'STATUS: SUB-CONCUSSIVE IMPACT';
+          severityBadge.textContent = 'STATUS: LIGHT BUMP (SUB-CONCUSSIVE)';
           severityBadge.style.color = '#38bdf8';
 
           bodyBrain.setAttribute('fill', '#38bdf8');
@@ -816,12 +747,12 @@
           bodyHeart.setAttribute('fill', '#38bdf8');
           bodyArteries.setAttribute('stroke', '#38bdf8');
 
-          affectBrain.textContent = 'Mild shockwave. Minimal stress on head tissue and temporary cell fatigue.';
-          affectNeck.textContent = 'Minor whiplash movement. Neck muscles absorb most of the force without sprain.';
-          affectEyes.textContent = 'Normal eye response. Slight momentary light flutter may occur.';
-          affectHeart.textContent = 'Resting heart rate remains steady with normal cardiovascular flow.';
+          affectBrain.textContent = 'Light jolt. Brain experiences minor shaking with quick recovery.';
+          affectNeck.textContent = 'Barely any neck movement. Muscles easily absorb the minor force.';
+          affectEyes.textContent = 'Vision is completely clear. No sensitivity to light.';
+          affectHeart.textContent = 'Normal heartbeat and steady blood flow.';
         } else if (physics.gForce < 60) {
-          severityBadge.textContent = 'STATUS: MILD CONCUSSION (mTBI)';
+          severityBadge.textContent = 'STATUS: MILD CONCUSSION';
           severityBadge.style.color = '#f87171';
 
           bodyBrain.setAttribute('fill', dynamicRed);
@@ -831,10 +762,10 @@
           bodyHeart.setAttribute('fill', '#38bdf8');
           bodyArteries.setAttribute('stroke', '#38bdf8');
 
-          affectBrain.textContent = 'Mild brain bruising and temporary chemical imbalance. Causes mild headache and confusion.';
-          affectNeck.textContent = 'Neck stiffness and muscle strain from rapid head acceleration.';
-          affectEyes.textContent = 'Temporary blurry vision and slight sensitivity to bright lights.';
-          affectHeart.textContent = 'Slight increase in pulse due to trauma shock and adrenaline release.';
+          affectBrain.textContent = 'Mild headache, slight dizziness, and temporary confusion.';
+          affectNeck.textContent = 'Stiff neck muscles and minor soreness from quick head snap.';
+          affectEyes.textContent = 'Mild blurriness and slight annoyance with bright lights.';
+          affectHeart.textContent = 'Slightly faster heart rate due to sudden surprise and adrenaline.';
         } else if (physics.gForce < 100) {
           severityBadge.textContent = 'STATUS: MODERATE CONCUSSION';
           severityBadge.style.color = '#ef4444';
@@ -846,27 +777,25 @@
           bodyHeart.setAttribute('fill', dynamicRed);
           bodyArteries.setAttribute('stroke', dynamicRed);
 
-          affectBrain.textContent = 'Significant brain tissue stretching. Causes dizziness, memory loss, and slowed thinking.';
-          affectNeck.textContent = 'Moderate cervical spine strain and painful muscle spasms around the shoulders.';
-          affectEyes.textContent = 'Double vision, difficulty focusing on moving objects, and eye fatigue.';
-          affectHeart.textContent = 'Blood pressure spikes and temporary disruption in regulated blood flow to the head.';
+          affectBrain.textContent = 'Noticeable memory fog, severe headache, dizziness, and trouble concentrating.';
+          affectNeck.textContent = 'Painful neck strain and tight shoulder muscles trying to protect the head.';
+          affectEyes.textContent = 'Double vision, trouble tracking moving objects, and heavy eye fatigue.';
+          affectHeart.textContent = 'Elevated blood pressure and temporary disruption in normal circulation flow.';
         } else {
-          severityBadge.textContent = 'STATUS: SEVERE TRAUMATIC BRAIN INJURY';
+          severityBadge.textContent = 'STATUS: SEVERE HEAD TRAUMA';
           severityBadge.style.color = '#b91c1c';
 
           bodyBrain.setAttribute('fill', dynamicRed);
-          bodyBrain.setAttribute('opacity', '0.85');
           bodyEyes1.setAttribute('fill', dynamicRed);
           bodyEyes2.setAttribute('fill', dynamicRed);
           bodyNeck.setAttribute('stroke', dynamicRed);
           bodyHeart.setAttribute('fill', dynamicRed);
           bodyArteries.setAttribute('stroke', dynamicRed);
-          bodyArteries.setAttribute('opacity', '0.9');
 
-          affectBrain.textContent = 'Critical neural tissue tearing. Potential loss of consciousness and severe long-term brain swelling.';
-          affectNeck.textContent = 'Severe neck spinal strain and high risk of cervical spine ligament injury.';
-          affectEyes.textContent = 'Pupils dilate irregularly, visual blackouts, and intense light intolerance.';
-          affectHeart.textContent = 'Restricted cerebral blood flow and severe cardiovascular autonomic stress.';
+          affectBrain.textContent = 'Critical brain shaking, potential blackout, and severe long-lasting dizziness.';
+          affectNeck.textContent = 'Heavy cervical spine trauma and severe muscle spasm.';
+          affectEyes.textContent = 'Unsteady pupil reaction, extreme light sensitivity, and dark spots in vision.';
+          affectHeart.textContent = 'Stressed blood flow regulation and high cardiovascular strain.';
         }
       }
 
@@ -894,17 +823,16 @@
         severityBadge.style.color = '#34d399';
 
         bodyBrain.setAttribute('fill', '#38bdf8');
-        bodyBrain.setAttribute('opacity', '0.3');
         bodyEyes1.setAttribute('fill', '#38bdf8');
         bodyEyes2.setAttribute('fill', '#38bdf8');
         bodyNeck.setAttribute('stroke', '#38bdf8');
         bodyHeart.setAttribute('fill', '#38bdf8');
         bodyArteries.setAttribute('stroke', '#38bdf8');
 
-        affectBrain.textContent = 'No trauma. Brain tissue is functioning normally within normal cerebral blood flow limits.';
-        affectNeck.textContent = 'No cervical strain. Spinal alignment and neck muscles are completely unaffected.';
-        affectEyes.textContent = 'Normal pupil response and clear visual focus. No light sensitivity reported.';
-        affectHeart.textContent = 'Stable resting heart rate and standard autonomic vascular regulation throughout the body.';
+        affectBrain.textContent = 'No trauma. Clear focus, normal memory, and healthy brain activity.';
+        affectNeck.textContent = 'No neck strain or stiffness. Muscles and posture are fully relaxed.';
+        affectEyes.textContent = 'Normal vision and steady focus. No light sensitivity or blurriness.';
+        affectHeart.textContent = 'Steady resting heart rate and normal blood circulation throughout the body.';
       });
 
       initNodes();
