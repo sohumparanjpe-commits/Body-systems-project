@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kinetic Impact & Concussion Traumatology Simulator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
+
+    :root {
+      --bg-gradient: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent-cyan: #38bdf8;
+      --accent-blue: #6366f1;
+      --accent-red: #f87171;
+      --accent-green: #34d399;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header-badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 20px;
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .app-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .simulator-layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 28px;
+    }
+
+    @media (max-width: 960px) {
+      .simulator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: border-color 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: -0.01em;
+    }
+
+    .impact-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .impact-btn {
+      background: rgba(30, 41, 59, 0.7);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 10px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .impact-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #f87171;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+    }
+
+    .slider-group {
+      margin-bottom: 20px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .slider-header strong {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent-cyan);
+      font-size: 1rem;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #1e293b;
+      outline: none;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      cursor: pointer;
+      box-shadow: 0 0 14px var(--accent-cyan);
+      transition: transform 0.15s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.25);
+      background: #7dd3fc;
+    }
+
+    .primary-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+    }
+
+    .reset-btn {
+      width: 100%;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-green);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .reset-btn:hover {
+      background: #10b981;
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .canvas-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .canvas-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .live-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .canvas-container {
+      width: 100%;
+      max-width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, #090d16 0%, #02040a 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .legend-bar {
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot.active {
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    .dot.damaged {
+      background: var(--accent-red);
+      box-shadow: 0 0 10px var(--accent-red);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.75);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .highlight-cyan { color: var(--accent-cyan); }
+    .highlight-red { color: var(--accent-red); }
+
+    .trauma-diagnosis {
+      background: rgba(30, 41, 59, 0.5);
+      border-left: 4px solid var(--accent-cyan);
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .trauma-diagnosis h3 {
+      font-size: 0.88rem;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .trauma-diagnosis p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    .citations-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .citations-card li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .citations-card li::before {
+      content: '◆';
+      color: var(--accent-cyan);
+      font-size: 0.8rem;
+      position: absolute;
+      left: 0;
+      top: 3px;
+    }
+
+    .citations-card a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .citations-card a:hover {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+    }
+
+    .shake {
+      animation: shakeAnim 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shakeAnim {
+      10%, 90% { transform: translate3d(-3px, 0, 0); }
+      20%, 80% { transform: translate3d(6px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-10px, 0, 0); }
+      40%, 60% { transform: translate3d(10px, 0, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-badge">PHYSICS & BIOMECHANICS SIMULATOR</div>
+    <h1>Kinetic Impact & Brain Concussion Simulator</h1>
+    <p>Real-time kinetic trauma physics & 10,000-node neural matrix destruction modeling</p>
+  </header>
+
+  <main class="app-container">
+    <div class="simulator-layout">
+
+      <section class="controls-column">
+        <div class="card">
+          <h2>Standard Impact Presets</h2>
+          <div class="impact-buttons">
+            <button class="impact-btn" data-mass="0.058" data-speed="60" data-name="Tennis Ball (60 mph)">Tennis Ball</button>
+            <button class="impact-btn" data-mass="4.0" data-speed="25" data-name="Bare-knuckle Punch (25 mph)">Punched</button>
+            <button class="impact-btn" data-mass="0.17" data-speed="90" data-name="Hockey Puck (90 mph)">Hockey Puck</button>
+            <button class="impact-btn" data-mass="80" data-speed="17" data-name="10ft Fall / Ground Impact">10ft Fall</button>
+            <button class="impact-btn" data-mass="1500" data-speed="40" data-name="Car Crash (40 mph)">Car Crash</button>
+            <button class="impact-btn" data-mass="12000" data-speed="30" data-name="Bus Collision (30 mph)">Bus Hit</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Custom Physics Impact Generator</h2>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Object Mass:</span>
+              <strong id="mass-val">10.0 kg</strong>
+            </div>
+            <input type="range" id="mass-slider" min="0.01" max="500" step="0.5" value="10.0" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span>Impact Speed:</span>
+              <strong id="speed-val">30 mph</strong>
+            </div>
+            <input type="range" id="speed-slider" min="1" max="120" step="1" value="30" />
+          </div>
+
+          <button id="trigger-custom-btn" class="primary-btn">Simulate Custom Collision</button>
+        </div>
+
+        <div class="card">
+          <button id="reset-brain-btn" class="reset-btn">Re-initialize 10,000 Neural Nodes</button>
+        </div>
+      </section>
+
+      <section class="visual-column">
+        <div class="card canvas-card">
+          <div class="canvas-header">
+            <h2>Neural Matrix View (10,000 Synaptic Nodes)</h2>
+            <span class="live-badge">LIVE CANVAS</span>
+          </div>
+          <div id="canvas-container" class="canvas-container">
+            <canvas id="brain-canvas" width="480" height="480"></canvas>
+          </div>
+          <div class="legend-bar">
+            <span class="legend-item"><span class="dot active"></span> Active Node</span>
+            <span class="legend-item"><span class="dot damaged"></span> Sheared/Damaged Node</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Kinetic Diagnostics & Biomechanics</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Active Neural Capacity</span>
+              <span class="stat-value highlight-cyan" id="brain-capacity">10,000 / 10,000 (100%)</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Calculated Kinetic Energy</span>
+              <span class="stat-value" id="energy-val">0 Joules</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Estimated Acceleration Force</span>
+              <span class="stat-value highlight-red" id="g-force-val">0 G</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Last Impact Source</span>
+              <span class="stat-value" id="last-impact-val">None</span>
+            </div>
+          </div>
+
+          <div class="trauma-diagnosis">
+            <h3>Trauma Diagnosis</h3>
+            <p id="brain-info">Select a collision preset or configure custom mass and speed to analyze neural damage across 10,000 functional brain nodes.</p>
+          </div>
+        </div>
+
+        <div class="card citations-card">
+          <h2>Data, sources, calculations.</h2>
+          <ul>
+            <li>
+              <strong>NIH / NCBI Research:</strong> Human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g.
+              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169720/" target="_blank" rel="noopener">Read NCBI Study</a>
+            </li>
+            <li>
+              <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions.
+              <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Ratings</a>
+            </li>
+            <li>
+              <strong>CDC HEADS UP Center:</strong> Dynamic head acceleration guidelines detailing mild TBI (mTBI) vs severe traumatic brain injury.
+              <a href="https://www.cdc.gov/headsup/index.html" target="_blank" rel="noopener">CDC HEADS UP Resources</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('brain-canvas');
+      const ctx = canvas.getContext('2d');
+      const canvasContainer = document.getElementById('canvas-container');
+
+      const massSlider = document.getElementById('mass-slider');
+      const speedSlider = document.getElementById('speed-slider');
+      const massVal = document.getElementById('mass-val');
+      const speedVal = document.getElementById('speed-val');
+
+      const brainCapacityEl = document.getElementById('brain-capacity');
+      const energyValEl = document.getElementById('energy-val');
+      const gForceValEl = document.getElementById('g-force-val');
+      const lastImpactValEl = document.getElementById('last-impact-val');
+      const brainInfoEl = document.getElementById('brain-info');
+      const resetBtn = document.getElementById('reset-brain-btn');
+
+      const TOTAL_NODES = 10000;
+      let nodes = new Float32Array(TOTAL_NODES * 3);
+
+      let shockwaveActive = false;
+      let shockRadius = 0;
+      let shockMaxRadius = 260;
+      let shockCenterX = 240;
+      let shockCenterY = 240;
+
+      function initNodes() {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const rx = 180;
+        const ry = 150;
+
+        for (let i = 0; i < TOTAL_NODES; i++) {
+          let x, y, valid = false;
+          while (!valid) {
+            x = centerX + (Math.random() * 2 - 1) * rx;
+            y = centerY + (Math.random() * 2 - 1) * ry;
+
+            const dx = (x - centerX) / rx;
+            const dy = (y - centerY) / ry;
+            if (dx * dx + dy * dy <= 0.85) valid = true;
+          }
+
+          nodes[i * 3] = x;
+          nodes[i * 3 + 1] = y;
+          nodes[i * 3 + 2] = 1.0;
+        }
+      }
+
+      function renderBrain() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.ellipse(canvas.width / 2, canvas.height / 2, 185, 155, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath();
+        for (let i = 0; i < TOTAL_NODES; i++) {
+          if (nodes[i * 3 + 2] === 1.0) {
+            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 2, 2);
+          }
+        }
+        ctx.fill();
+
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        for (let i = 0; i < TOTAL_NODES; i++) {
+          if (nodes[i * 3 + 2] === 0.0) {
+            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 2, 2);
+          }
+        }
+        ctx.fill();
+
+        if (shockwaveActive) {
+          ctx.beginPath();
+          ctx.arc(shockCenterX, shockCenterY, shockRadius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(248, 113, 113, ${1 - shockRadius / shockMaxRadius})`;
+          ctx.lineWidth = 5;
+          ctx.stroke();
+
+          shockRadius += 10;
+          if (shockRadius > shockMaxRadius) shockwaveActive = false;
+        }
+
+        requestAnimationFrame(renderBrain);
+      }
+
+      function calculatePhysics(massKg, speedMph) {
+        const speedMs = speedMph * 0.44704;
+        const energyJoules = 0.5 * massKg * Math.pow(speedMs, 2);
+        const decelerationMs2 = speedMs / 0.012;
+        const gForce = Math.round((decelerationMs2 / 9.81) * Math.min(massKg / 5, 2.5));
+
+        return { joules: Math.round(energyJoules), gForce: Math.max(gForce, 1) };
+      }
+
+      function executeCollision(name, massKg, speedMph) {
+        const physics = calculatePhysics(massKg, speedMph);
+
+        canvasContainer.classList.remove('shake');
+        void canvasContainer.offsetWidth;
+        canvasContainer.classList.add('shake');
+
+        shockwaveActive = true;
+        shockRadius = 0;
+        shockCenterX = canvas.width / 2 + (Math.random() * 60 - 30);
+        shockCenterY = canvas.height / 2 + (Math.random() * 60 - 30);
+
+        const damagePercent = Math.min(physics.gForce / 150, 0.98);
+        const nodesToDestroy = Math.floor(damagePercent * TOTAL_NODES);
+
+        let count = 0;
+        for (let i = 0; i < TOTAL_NODES && count < nodesToDestroy; i++) {
+          const idx = Math.floor(Math.random() * TOTAL_NODES);
+          if (nodes[idx * 3 + 2] === 1.0) {
+            nodes[idx * 3 + 2] = 0.0;
+            count++;
+          }
+        }
+
+        let remainingActive = 0;
+        for (let i = 0; i < TOTAL_NODES; i++) {
+          if (nodes[i * 3 + 2] === 1.0) remainingActive++;
+        }
+
+        const capacityPercent = ((remainingActive / TOTAL_NODES) * 100).toFixed(1);
+
+        brainCapacityEl.textContent = `${remainingActive.toLocaleString()} / 10,000 (${capacityPercent}%)`;
+        energyValEl.textContent = `${physics.joules.toLocaleString()} Joules`;
+        gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
+        lastImpactValEl.textContent = name;
+
+        if (physics.gForce < 20) {
+          brainInfoEl.textContent = 'Sub-concussive force. Minimal axonal strain detected. Neural capacity remains stable.';
+        } else if (physics.gForce < 60) {
+          brainInfoEl.textContent = 'Mild Traumatic Brain Injury (mTBI). Axonal stretching detected. Symptoms include dizziness, headaches, and disorientation.';
+        } else if (physics.gForce < 100) {
+          brainInfoEl.textContent = 'Moderate Concussion (Exceeds NCBI Concussion Threshold of 60g-90g). High likelihood of persistent memory deficits and localized unconsciousness.';
+        } else {
+          brainInfoEl.textContent = 'Severe Traumatic Brain Injury / Kinetic Trauma. Diffuse Axonal Injury (DAI) detected across widespread neural node clusters.';
+        }
+      }
+
+      massSlider.addEventListener('input', (e) => massVal.textContent = `${e.target.value} kg`);
+      speedSlider.addEventListener('input', (e) => speedVal.textContent = `${e.target.value} mph`);
+
+      document.getElementById('trigger-custom-btn').addEventListener('click', () => {
+        executeCollision(`Custom (${massSlider.value}kg @ ${speedSlider.value}mph)`, parseFloat(massSlider.value), parseInt(speedSlider.value, 10));
+      });
+
+      document.querySelectorAll('.impact-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          executeCollision(btn.getAttribute('data-name'), parseFloat(btn.getAttribute('data-mass')), parseInt(btn.getAttribute('data-speed'), 10));
+        });
+      });
+
+      resetBtn.addEventListener('click', () => {
+        initNodes();
+        brainCapacityEl.textContent = '10,000 / 10,000 (100%)';
+        energyValEl.textContent = '0 Joules';
+        gForceValEl.textContent = '0 G';
+        lastImpactValEl.textContent = 'None';
+        brainInfoEl.textContent = 'Select a collision preset or configure custom mass and speed to analyze neural damage across 10,000 functional brain nodes.';
+      });
+
+      initNodes();
+      renderBrain();
+    });
+  </script>
+</body>
+</html>
