@@ -70,13 +70,13 @@
     }
 
     .app-container {
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 0 auto;
     }
 
     .simulator-layout {
       display: grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns: 400px 1fr;
       gap: 28px;
     }
 
@@ -220,6 +220,19 @@
       box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
     }
 
+    /* Split Visual Grid */
+    .visual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .canvas-card {
       display: flex;
       flex-direction: column;
@@ -248,8 +261,7 @@
 
     .canvas-container {
       width: 100%;
-      max-width: 480px;
-      height: 480px;
+      height: 380px;
       background: radial-gradient(circle, #090d16 0%, #02040a 100%);
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -257,7 +269,7 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
-      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 0, 0, 0.8);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.95);
     }
 
     canvas {
@@ -267,16 +279,16 @@
 
     .legend-bar {
       display: flex;
-      gap: 24px;
-      margin-top: 16px;
-      font-size: 0.85rem;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .dot {
@@ -285,16 +297,31 @@
       border-radius: 50%;
     }
 
-    .dot.active {
-      background: var(--accent-cyan);
-      box-shadow: 0 0 10px var(--accent-cyan);
+    .dot.active { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
+    .dot.damaged { background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+
+    /* Skeleton Vector Model Frame */
+    .skeleton-container {
+      width: 100%;
+      height: 380px;
+      background: radial-gradient(circle, #090d16 0%, #02040a 100%);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.95);
     }
 
-    .dot.damaged {
-      background: var(--accent-red);
-      box-shadow: 0 0 10px var(--accent-red);
+    .skeleton-svg {
+      width: 80%;
+      height: 90%;
+      filter: drop-shadow(0 0 12px rgba(0,0,0,0.8));
     }
 
+    /* Diagnostics & Body Affects Box */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -327,25 +354,56 @@
     .highlight-cyan { color: var(--accent-cyan); }
     .highlight-red { color: var(--accent-red); }
 
-    .trauma-diagnosis {
+    .body-affects-box {
       background: rgba(30, 41, 59, 0.5);
       border-left: 4px solid var(--accent-cyan);
-      padding: 18px;
-      border-radius: 10px;
+      padding: 20px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .trauma-diagnosis h3 {
-      font-size: 0.88rem;
+    .body-affects-box h3 {
+      font-size: 0.95rem;
       text-transform: uppercase;
       color: var(--accent-cyan);
       letter-spacing: 0.08em;
-      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .trauma-diagnosis p {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: #cbd5e1;
+    .affects-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .affects-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .affect-item {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .affect-item strong {
+      display: block;
+      color: #f1f5f9;
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+
+    .affect-item p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
     .citations-card ul {
@@ -401,12 +459,13 @@
   <header>
     <div class="header-badge">PHYSICS & BIOMECHANICS SIMULATOR</div>
     <h1>Kinetic Impact & Brain Concussion Simulator</h1>
-    <p>Real-time kinetic trauma physics & 10,000-node neural matrix destruction modeling</p>
+    <p>Real-time trauma modeling across 10,000 neural nodes & full body systemic circulation mapping</p>
   </header>
 
   <main class="app-container">
     <div class="simulator-layout">
 
+      <!-- LEFT COLUMN: CONTROLS -->
       <section class="controls-column">
         <div class="card">
           <h2>Standard Impact Presets</h2>
@@ -442,27 +501,83 @@
         </div>
 
         <div class="card">
-          <button id="reset-brain-btn" class="reset-btn">Re-initialize 10,000 Neural Nodes</button>
+          <button id="reset-brain-btn" class="reset-btn">Re-initialize 10,000 Neural Nodes & Vascular Network</button>
         </div>
       </section>
 
+      <!-- RIGHT COLUMN: VISUALIZERS & BODY AFFECTS -->
       <section class="visual-column">
-        <div class="card canvas-card">
-          <div class="canvas-header">
-            <h2>Neural Matrix View (10,000 Synaptic Nodes)</h2>
-            <span class="live-badge">LIVE CANVAS</span>
+        
+        <!-- VISUAL GRID: BRAIN + SKELETON MODEL -->
+        <div class="visual-grid">
+          <div class="card canvas-card">
+            <div class="canvas-header">
+              <h2>Brain Matrix (10,000 Nodes)</h2>
+              <span class="live-badge">NEURAL VIEW</span>
+            </div>
+            <div id="canvas-container" class="canvas-container">
+              <canvas id="brain-canvas" width="380" height="380"></canvas>
+            </div>
+            <div class="legend-bar">
+              <span class="legend-item"><span class="dot active"></span> Active</span>
+              <span class="legend-item"><span class="dot damaged"></span> Sheared</span>
+            </div>
           </div>
-          <div id="canvas-container" class="canvas-container">
-            <canvas id="brain-canvas" width="480" height="480"></canvas>
-          </div>
-          <div class="legend-bar">
-            <span class="legend-item"><span class="dot active"></span> Active Node</span>
-            <span class="legend-item"><span class="dot damaged"></span> Sheared/Damaged Node</span>
+
+          <div class="card canvas-card">
+            <div class="canvas-header">
+              <h2>Full Body Circulation & Impact</h2>
+              <span class="live-badge">VASCULAR MODEL</span>
+            </div>
+            <div id="skeleton-container" class="skeleton-container">
+              <!-- Full Body Skeleton Vector with Dynamic Blood Flow Pathways -->
+              <svg class="skeleton-svg" viewBox="0 0 200 400">
+                <!-- Skeleton Frame -->
+                <g fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round">
+                  <!-- Skull -->
+                  <ellipse cx="100" cy="35" rx="16" ry="20" />
+                  <!-- Spine -->
+                  <line x1="100" y1="55" x2="100" y2="180" stroke-width="3" />
+                  <!-- Ribcage & Shoulders -->
+                  <line x1="65" y1="75" x2="135" y2="75" />
+                  <path d="M 80 80 Q 100 110 120 80 M 75 95 Q 100 130 125 95 M 75 110 Q 100 140 125 110" opacity="0.6"/>
+                  <!-- Pelvis -->
+                  <polygon points="75,180 125,180 110,210 90,210" fill="none" />
+                  <!-- Arms -->
+                  <line x1="65" y1="75" x2="45" y2="135" />
+                  <line x1="45" y1="135" x2="35" y2="185" />
+                  <line x1="135" y1="75" x2="155" y2="135" />
+                  <line x1="155" y1="135" x2="165" y2="185" />
+                  <!-- Legs -->
+                  <line x1="85" y1="210" x2="80" y2="295" />
+                  <line x1="80" y1="295" x2="75" y2="375" />
+                  <line x1="115" y1="210" x2="120" y2="295" />
+                  <line x1="120" y1="295" x2="125" y2="375" />
+                </g>
+
+                <!-- Dynamic Vascular & Organ Highlights (Dynamic Color Shifts) -->
+                <!-- Head & Brain System -->
+                <ellipse id="body-brain" cx="100" cy="35" rx="13" ry="16" fill="#38bdf8" opacity="0.3" />
+                <!-- Eyes & Visual Pathway -->
+                <circle id="body-eyes" cx="93" cy="30" r="3" fill="#38bdf8" />
+                <circle id="body-eyes-2" cx="107" cy="30" r="3" fill="#38bdf8" />
+                <!-- Cervical Spine & Neck -->
+                <line id="body-neck" x1="100" y1="55" x2="100" y2="75" stroke="#38bdf8" stroke-width="4" />
+                <!-- Heart & Main Circulation Arteries -->
+                <circle id="body-heart" cx="108" cy="95" r="8" fill="#38bdf8" />
+                <path id="body-arteries" d="M 100 55 L 100 180 M 100 75 L 65 75 M 100 75 L 135 75 M 100 180 L 85 210 L 80 375 M 100 180 L 115 210 L 120 375" stroke="#38bdf8" stroke-width="1.5" opacity="0.4" />
+              </svg>
+            </div>
+            <div class="legend-bar">
+              <span class="legend-item"><span class="dot active"></span> Normal Flow</span>
+              <span class="legend-item"><span class="dot damaged"></span> Restricted / Affected</span>
+            </div>
           </div>
         </div>
 
+        <!-- TELEMETRY & BODY AFFECTS BOX -->
         <div class="card">
-          <h2>Kinetic Diagnostics & Biomechanics</h2>
+          <h2>Kinetic Diagnostics & Body System Affects</h2>
           <div class="stats-grid">
             <div class="stat-card">
               <span class="stat-label">Active Neural Capacity</span>
@@ -482,14 +597,32 @@
             </div>
           </div>
 
-          <div class="trauma-diagnosis">
-            <h3>Trauma Diagnosis</h3>
-            <p id="brain-info">Select a collision preset or configure custom mass and speed to analyze neural damage across 10,000 functional brain nodes.</p>
+          <!-- Dynamic Body System Affects Details Box -->
+          <div class="body-affects-box">
+            <h3>Concussion Trauma & Body Affects <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
+            <div class="affects-list">
+              <div class="affect-item">
+                <strong>1. Head & Brain System</strong>
+                <p id="affect-brain">No trauma. Brain tissue is functioning normally within normal cerebral blood flow limits.</p>
+              </div>
+              <div class="affect-item">
+                <strong>2. Neck & Spine</strong>
+                <p id="affect-neck">No cervical strain. Spinal alignment and neck muscles are completely unaffected.</p>
+              </div>
+              <div class="affect-item">
+                <strong>3. Vision & Eyes</strong>
+                <p id="affect-eyes">Normal pupil response and clear visual focus. No light sensitivity reported.</p>
+              </div>
+              <div class="affect-item">
+                <strong>4. Heart Rate & Blood Flow</strong>
+                <p id="affect-heart">Stable resting heart rate and standard autonomic vascular regulation throughout the body.</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="card citations-card">
-          <h2>Data, sources, calculations.</h2>
+          <h2>Peer-Reviewed Concussion Data Sources</h2>
           <ul>
             <li>
               <strong>NIH / NCBI Research:</strong> Human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g.
@@ -498,10 +631,6 @@
             <li>
               <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions.
               <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Ratings</a>
-            </li>
-            <li>
-              <strong>CDC HEADS UP Center:</strong> Dynamic head acceleration guidelines detailing mild TBI (mTBI) vs severe traumatic brain injury.
-              <a href="https://www.cdc.gov/headsup/index.html" target="_blank" rel="noopener">CDC HEADS UP Resources</a>
             </li>
           </ul>
         </div>
@@ -525,23 +654,37 @@
       const energyValEl = document.getElementById('energy-val');
       const gForceValEl = document.getElementById('g-force-val');
       const lastImpactValEl = document.getElementById('last-impact-val');
-      const brainInfoEl = document.getElementById('brain-info');
       const resetBtn = document.getElementById('reset-brain-btn');
+
+      // Body Affects Elements
+      const severityBadge = document.getElementById('severity-badge');
+      const affectBrain = document.getElementById('affect-brain');
+      const affectNeck = document.getElementById('affect-neck');
+      const affectEyes = document.getElementById('affect-eyes');
+      const affectHeart = document.getElementById('affect-heart');
+
+      // Skeleton Vector SVG Elements
+      const bodyBrain = document.getElementById('body-brain');
+      const bodyEyes1 = document.getElementById('body-eyes');
+      const bodyEyes2 = document.getElementById('body-eyes-2');
+      const bodyNeck = document.getElementById('body-neck');
+      const bodyHeart = document.getElementById('body-heart');
+      const bodyArteries = document.getElementById('body-arteries');
 
       const TOTAL_NODES = 10000;
       let nodes = new Float32Array(TOTAL_NODES * 3);
 
       let shockwaveActive = false;
       let shockRadius = 0;
-      let shockMaxRadius = 260;
-      let shockCenterX = 240;
-      let shockCenterY = 240;
+      let shockMaxRadius = 220;
+      let shockCenterX = 190;
+      let shockCenterY = 190;
 
       function initNodes() {
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
-        const rx = 180;
-        const ry = 150;
+        const rx = 140;
+        const ry = 115;
 
         for (let i = 0; i < TOTAL_NODES; i++) {
           let x, y, valid = false;
@@ -564,7 +707,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
-        ctx.ellipse(canvas.width / 2, canvas.height / 2, 185, 155, 0, 0, Math.PI * 2);
+        ctx.ellipse(canvas.width / 2, canvas.height / 2, 145, 120, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
         ctx.fill();
         ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
@@ -575,7 +718,7 @@
         ctx.beginPath();
         for (let i = 0; i < TOTAL_NODES; i++) {
           if (nodes[i * 3 + 2] === 1.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 2, 2);
+            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
           }
         }
         ctx.fill();
@@ -584,7 +727,7 @@
         ctx.beginPath();
         for (let i = 0; i < TOTAL_NODES; i++) {
           if (nodes[i * 3 + 2] === 0.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 2, 2);
+            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
           }
         }
         ctx.fill();
@@ -593,10 +736,10 @@
           ctx.beginPath();
           ctx.arc(shockCenterX, shockCenterY, shockRadius, 0, Math.PI * 2);
           ctx.strokeStyle = `rgba(248, 113, 113, ${1 - shockRadius / shockMaxRadius})`;
-          ctx.lineWidth = 5;
+          ctx.lineWidth = 4;
           ctx.stroke();
 
-          shockRadius += 10;
+          shockRadius += 8;
           if (shockRadius > shockMaxRadius) shockwaveActive = false;
         }
 
@@ -612,6 +755,15 @@
         return { joules: Math.round(energyJoules), gForce: Math.max(gForce, 1) };
       }
 
+      // Convert impact severity into dynamic RGB Redness (Lighter Red -> Dark Deep Red)
+      function getRedShade(severityFactor) {
+        // severityFactor goes from 0.0 to 1.0
+        const red = Math.round(255 - severityFactor * 130); // 255 down to 125
+        const green = Math.round(100 * (1 - severityFactor)); // 100 down to 0
+        const blue = Math.round(100 * (1 - severityFactor));  // 100 down to 0
+        return `rgb(${red}, ${green}, ${blue})`;
+      }
+
       function executeCollision(name, massKg, speedMph) {
         const physics = calculatePhysics(massKg, speedMph);
 
@@ -621,8 +773,8 @@
 
         shockwaveActive = true;
         shockRadius = 0;
-        shockCenterX = canvas.width / 2 + (Math.random() * 60 - 30);
-        shockCenterY = canvas.height / 2 + (Math.random() * 60 - 30);
+        shockCenterX = canvas.width / 2 + (Math.random() * 40 - 20);
+        shockCenterY = canvas.height / 2 + (Math.random() * 40 - 20);
 
         const damagePercent = Math.min(physics.gForce / 150, 0.98);
         const nodesToDestroy = Math.floor(damagePercent * TOTAL_NODES);
@@ -648,14 +800,73 @@
         gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
         lastImpactValEl.textContent = name;
 
+        // Calculate severity ratio for color transition (0 = healthy, 1 = maximum destruction)
+        const severityFactor = Math.min(physics.gForce / 140, 1.0);
+        const dynamicRed = getRedShade(severityFactor);
+
+        // Update Skeleton Vascular Highlights with dynamic darkness of red
         if (physics.gForce < 20) {
-          brainInfoEl.textContent = 'Sub-concussive force. Minimal axonal strain detected. Neural capacity remains stable.';
+          severityBadge.textContent = 'STATUS: SUB-CONCUSSIVE IMPACT';
+          severityBadge.style.color = '#38bdf8';
+
+          bodyBrain.setAttribute('fill', '#38bdf8');
+          bodyEyes1.setAttribute('fill', '#38bdf8');
+          bodyEyes2.setAttribute('fill', '#38bdf8');
+          bodyNeck.setAttribute('stroke', '#38bdf8');
+          bodyHeart.setAttribute('fill', '#38bdf8');
+          bodyArteries.setAttribute('stroke', '#38bdf8');
+
+          affectBrain.textContent = 'Mild shockwave. Minimal stress on head tissue and temporary cell fatigue.';
+          affectNeck.textContent = 'Minor whiplash movement. Neck muscles absorb most of the force without sprain.';
+          affectEyes.textContent = 'Normal eye response. Slight momentary light flutter may occur.';
+          affectHeart.textContent = 'Resting heart rate remains steady with normal cardiovascular flow.';
         } else if (physics.gForce < 60) {
-          brainInfoEl.textContent = 'Mild Traumatic Brain Injury (mTBI). Axonal stretching detected. Symptoms include dizziness, headaches, and disorientation.';
+          severityBadge.textContent = 'STATUS: MILD CONCUSSION (mTBI)';
+          severityBadge.style.color = '#f87171';
+
+          bodyBrain.setAttribute('fill', dynamicRed);
+          bodyEyes1.setAttribute('fill', dynamicRed);
+          bodyEyes2.setAttribute('fill', dynamicRed);
+          bodyNeck.setAttribute('stroke', dynamicRed);
+          bodyHeart.setAttribute('fill', '#38bdf8');
+          bodyArteries.setAttribute('stroke', '#38bdf8');
+
+          affectBrain.textContent = 'Mild brain bruising and temporary chemical imbalance. Causes mild headache and confusion.';
+          affectNeck.textContent = 'Neck stiffness and muscle strain from rapid head acceleration.';
+          affectEyes.textContent = 'Temporary blurry vision and slight sensitivity to bright lights.';
+          affectHeart.textContent = 'Slight increase in pulse due to trauma shock and adrenaline release.';
         } else if (physics.gForce < 100) {
-          brainInfoEl.textContent = 'Moderate Concussion (Exceeds NCBI Concussion Threshold of 60g-90g). High likelihood of persistent memory deficits and localized unconsciousness.';
+          severityBadge.textContent = 'STATUS: MODERATE CONCUSSION';
+          severityBadge.style.color = '#ef4444';
+
+          bodyBrain.setAttribute('fill', dynamicRed);
+          bodyEyes1.setAttribute('fill', dynamicRed);
+          bodyEyes2.setAttribute('fill', dynamicRed);
+          bodyNeck.setAttribute('stroke', dynamicRed);
+          bodyHeart.setAttribute('fill', dynamicRed);
+          bodyArteries.setAttribute('stroke', dynamicRed);
+
+          affectBrain.textContent = 'Significant brain tissue stretching. Causes dizziness, memory loss, and slowed thinking.';
+          affectNeck.textContent = 'Moderate cervical spine strain and painful muscle spasms around the shoulders.';
+          affectEyes.textContent = 'Double vision, difficulty focusing on moving objects, and eye fatigue.';
+          affectHeart.textContent = 'Blood pressure spikes and temporary disruption in regulated blood flow to the head.';
         } else {
-          brainInfoEl.textContent = 'Severe Traumatic Brain Injury / Kinetic Trauma. Diffuse Axonal Injury (DAI) detected across widespread neural node clusters.';
+          severityBadge.textContent = 'STATUS: SEVERE TRAUMATIC BRAIN INJURY';
+          severityBadge.style.color = '#b91c1c';
+
+          bodyBrain.setAttribute('fill', dynamicRed);
+          bodyBrain.setAttribute('opacity', '0.85');
+          bodyEyes1.setAttribute('fill', dynamicRed);
+          bodyEyes2.setAttribute('fill', dynamicRed);
+          bodyNeck.setAttribute('stroke', dynamicRed);
+          bodyHeart.setAttribute('fill', dynamicRed);
+          bodyArteries.setAttribute('stroke', dynamicRed);
+          bodyArteries.setAttribute('opacity', '0.9');
+
+          affectBrain.textContent = 'Critical neural tissue tearing. Potential loss of consciousness and severe long-term brain swelling.';
+          affectNeck.textContent = 'Severe neck spinal strain and high risk of cervical spine ligament injury.';
+          affectEyes.textContent = 'Pupils dilate irregularly, visual blackouts, and intense light intolerance.';
+          affectHeart.textContent = 'Restricted cerebral blood flow and severe cardiovascular autonomic stress.';
         }
       }
 
@@ -678,7 +889,22 @@
         energyValEl.textContent = '0 Joules';
         gForceValEl.textContent = '0 G';
         lastImpactValEl.textContent = 'None';
-        brainInfoEl.textContent = 'Select a collision preset or configure custom mass and speed to analyze neural damage across 10,000 functional brain nodes.';
+
+        severityBadge.textContent = 'STATUS: NORMAL';
+        severityBadge.style.color = '#34d399';
+
+        bodyBrain.setAttribute('fill', '#38bdf8');
+        bodyBrain.setAttribute('opacity', '0.3');
+        bodyEyes1.setAttribute('fill', '#38bdf8');
+        bodyEyes2.setAttribute('fill', '#38bdf8');
+        bodyNeck.setAttribute('stroke', '#38bdf8');
+        bodyHeart.setAttribute('fill', '#38bdf8');
+        bodyArteries.setAttribute('stroke', '#38bdf8');
+
+        affectBrain.textContent = 'No trauma. Brain tissue is functioning normally within normal cerebral blood flow limits.';
+        affectNeck.textContent = 'No cervical strain. Spinal alignment and neck muscles are completely unaffected.';
+        affectEyes.textContent = 'Normal pupil response and clear visual focus. No light sensitivity reported.';
+        affectHeart.textContent = 'Stable resting heart rate and standard autonomic vascular regulation throughout the body.';
       });
 
       initNodes();
