@@ -362,19 +362,42 @@
       padding: 12px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: border-color 0.3s ease;
     }
 
-    .affect-item strong {
-      display: block;
-      color: #f1f5f9;
-      font-size: 0.88rem;
-      margin-bottom: 4px;
+    .citations-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    .affect-item p {
-      font-size: 0.82rem;
+    .citations-card li {
+      font-size: 0.85rem;
       color: var(--text-muted);
-      line-height: 1.4;
+      line-height: 1.5;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .citations-card li::before {
+      content: '•';
+      color: var(--accent-cyan);
+      font-size: 1.2rem;
+      position: absolute;
+      left: 0;
+      top: -2px;
+    }
+
+    .citations-card a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+      margin-left: 4px;
+    }
+
+    .citations-card a:hover {
+      text-decoration: underline;
     }
 
     .shake {
@@ -482,18 +505,18 @@
                 <!-- Lower Limbs (Legs) -->
                 <path d="M 88 222 L 82 300 L 76 380 M 112 222 L 118 300 L 124 380" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
 
-                <!-- Dynamic Organs & Vascular Tree -->
-                <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.5" />
-                <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" />
-                <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" />
+                <!-- Dynamic Highlightable Body Parts (Shifts color & opacity based on activity/trauma) -->
+                <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.6" />
+                <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
+                <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
                 <path id="body-neck" d="M 97 65 L 103 65 L 103 75 L 97 75 Z" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-heart" cx="105" cy="98" r="7" fill="#38bdf8" />
+                <circle id="body-heart" cx="105" cy="98" r="7" fill="#38bdf8" opacity="0.6" />
                 <path id="body-arteries" d="M 100 65 L 100 200 M 100 85 L 72 85 M 100 85 L 128 85 M 100 200 L 88 222 L 82 380 M 100 200 L 112 222 L 124 380" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" />
               </svg>
             </div>
             <div class="legend-bar">
-              <span class="legend-item"><span class="dot active"></span> Normal Flow</span>
-              <span class="legend-item"><span class="dot damaged"></span> Affected Area</span>
+              <span class="legend-item"><span class="dot active"></span> Active / Normal</span>
+              <span class="legend-item"><span class="dot damaged"></span> Impacted / Stressed</span>
             </div>
           </div>
 
@@ -516,32 +539,51 @@
               <span class="stat-value highlight-red" id="g-force-val">0 G</span>
             </div>
             <div class="stat-card">
-              <span class="stat-label">Last Impact Source</span>
-              <span class="stat-value" id="last-impact-val">None</span>
+              <span class="stat-label">Estimated Recovery Rest Time</span>
+              <span class="stat-value highlight-cyan" id="recovery-val">None Required</span>
             </div>
           </div>
 
           <div class="body-affects-box">
             <h3>Concussion Symptoms & Body Impact <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
             <div class="affects-list">
-              <div class="affect-item">
+              <div class="affect-item" id="box-head">
                 <strong>1. Head & Thinking</strong>
                 <p id="affect-brain">No trauma. Clear focus, normal memory, and healthy brain activity.</p>
               </div>
-              <div class="affect-item">
+              <div class="affect-item" id="box-neck">
                 <strong>2. Neck & Spine</strong>
                 <p id="affect-neck">No neck strain or stiffness. Muscles and posture are fully relaxed.</p>
               </div>
-              <div class="affect-item">
+              <div class="affect-item" id="box-eyes">
                 <strong>3. Eyes & Vision</strong>
                 <p id="affect-eyes">Normal vision and steady focus. No light sensitivity or blurriness.</p>
               </div>
-              <div class="affect-item">
+              <div class="affect-item" id="box-heart">
                 <strong>4. Heart & Blood Flow</strong>
                 <p id="affect-heart">Steady resting heart rate and normal blood circulation throughout the body.</p>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- PEER-REVIEWED RESEARCH CITATIONS -->
+        <div class="card citations-card">
+          <h2>Peer-Reviewed Concussion & G-Force Research Data</h2>
+          <ul>
+            <li>
+              <strong>NIH / National Center for Biotechnology Information (NCBI):</strong> Research indicates human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g[cite: 1]. 
+              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169720/" target="_blank" rel="noopener">Read NIH Research[cite: 1]</a>
+            </li>
+            <li>
+              <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions and head impact safety ratings.
+              <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Data</a>
+            </li>
+            <li>
+              <strong>CDC HEADS UP Concussion Thresholds:</strong> Dynamic head acceleration guidelines detailing mild TBI (mTBI) vs severe traumatic brain injury recovery intervals.
+              <a href="https://www.cdc.gov/headsup/index.html" target="_blank" rel="noopener">CDC HEADS UP Center</a>
+            </li>
+          </ul>
         </div>
 
       </section>
@@ -563,7 +605,7 @@
       const brainCapacityEl = document.getElementById('brain-capacity');
       const energyValEl = document.getElementById('energy-val');
       const gForceValEl = document.getElementById('g-force-val');
-      const lastImpactValEl = document.getElementById('last-impact-val');
+      const recoveryValEl = document.getElementById('recovery-val');
       const resetBtn = document.getElementById('reset-brain-btn');
 
       const severityBadge = document.getElementById('severity-badge');
@@ -571,6 +613,11 @@
       const affectNeck = document.getElementById('affect-neck');
       const affectEyes = document.getElementById('affect-eyes');
       const affectHeart = document.getElementById('affect-heart');
+
+      const boxHead = document.getElementById('box-head');
+      const boxNeck = document.getElementById('box-neck');
+      const boxEyes = document.getElementById('box-eyes');
+      const boxHeart = document.getElementById('box-heart');
 
       const bodyBrain = document.getElementById('body-brain');
       const bodyEyes1 = document.getElementById('body-eyes');
@@ -670,6 +717,16 @@
         return `rgb(${red}, ${green}, ${blue})`;
       }
 
+      function highlightBox(boxElement, isAffected) {
+        if (isAffected) {
+          boxElement.style.borderColor = '#f87171';
+          boxElement.style.background = 'rgba(239, 68, 68, 0.15)';
+        } else {
+          boxElement.style.borderColor = 'rgba(255, 255, 255, 0.05)';
+          boxElement.style.background = 'rgba(15, 23, 42, 0.6)';
+        }
+      }
+
       function executeCollision(name, massKg, speedMph) {
         const physics = calculatePhysics(massKg, speedMph);
 
@@ -709,45 +766,71 @@
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
 
+        // Highlight active vs impacted parts on skeleton model
         bodyBrain.setAttribute('fill', dynamicRed);
+        bodyBrain.setAttribute('opacity', 0.5 + severityFactor * 0.5);
         bodyEyes1.setAttribute('fill', dynamicRed);
         bodyEyes2.setAttribute('fill', dynamicRed);
         bodyNeck.setAttribute('fill', dynamicRed);
-        bodyHeart.setAttribute('fill', dynamicRed);
-        bodyArteries.setAttribute('stroke', dynamicRed);
+        bodyHeart.setAttribute('fill', physics.gForce > 50 ? dynamicRed : '#38bdf8');
+        bodyArteries.setAttribute('stroke', physics.gForce > 50 ? dynamicRed : '#38bdf8');
 
         if (physics.gForce < 20) {
           severityBadge.textContent = 'STATUS: LIGHT BUMP (SUB-CONCUSSIVE)';
           severityBadge.style.color = '#38bdf8';
+          recoveryValEl.textContent = '24 - 48 Hours Rest';
 
           affectBrain.textContent = 'Light jolt. Brain experiences minor shaking with quick recovery.';
           affectNeck.textContent = 'Barely any neck movement. Muscles easily absorb the minor force.';
           affectEyes.textContent = 'Vision is completely clear. No sensitivity to light.';
           affectHeart.textContent = 'Normal heartbeat and steady blood flow.';
+
+          highlightBox(boxHead, true);
+          highlightBox(boxNeck, false);
+          highlightBox(boxEyes, false);
+          highlightBox(boxHeart, false);
         } else if (physics.gForce < 60) {
           severityBadge.textContent = 'STATUS: MILD CONCUSSION';
           severityBadge.style.color = '#f87171';
+          recoveryValEl.textContent = '1 - 2 Weeks Rest';
 
           affectBrain.textContent = 'Mild headache, slight dizziness, and temporary confusion.';
           affectNeck.textContent = 'Stiff neck muscles and minor soreness from quick head snap.';
           affectEyes.textContent = 'Mild blurriness and slight annoyance with bright lights.';
           affectHeart.textContent = 'Slightly faster heart rate due to sudden surprise and adrenaline.';
+
+          highlightBox(boxHead, true);
+          highlightBox(boxNeck, true);
+          highlightBox(boxEyes, true);
+          highlightBox(boxHeart, false);
         } else if (physics.gForce < 100) {
           severityBadge.textContent = 'STATUS: MODERATE CONCUSSION';
           severityBadge.style.color = '#ef4444';
+          recoveryValEl.textContent = '4 - 8 Weeks Restricted Activity';
 
           affectBrain.textContent = 'Noticeable memory fog, severe headache, dizziness, and trouble concentrating.';
           affectNeck.textContent = 'Painful neck strain and tight shoulder muscles trying to protect the head.';
           affectEyes.textContent = 'Double vision, trouble tracking moving objects, and heavy eye fatigue.';
           affectHeart.textContent = 'Elevated blood pressure and temporary disruption in normal circulation flow.';
+
+          highlightBox(boxHead, true);
+          highlightBox(boxNeck, true);
+          highlightBox(boxEyes, true);
+          highlightBox(boxHeart, true);
         } else {
           severityBadge.textContent = 'STATUS: SEVERE HEAD TRAUMA';
           severityBadge.style.color = '#b91c1c';
+          recoveryValEl.textContent = '3 - 6+ Months Medical Supervision';
 
           affectBrain.textContent = 'Critical brain shaking, potential blackout, and severe long-lasting dizziness.';
           affectNeck.textContent = 'Heavy cervical spine trauma and severe muscle spasm.';
           affectEyes.textContent = 'Unsteady pupil reaction, extreme light sensitivity, and dark spots in vision.';
           affectHeart.textContent = 'Stressed blood flow regulation and high cardiovascular strain.';
+
+          highlightBox(boxHead, true);
+          highlightBox(boxNeck, true);
+          highlightBox(boxEyes, true);
+          highlightBox(boxHeart, true);
         }
       }
 
@@ -770,11 +853,13 @@
         energyValEl.textContent = '0 Joules';
         gForceValEl.textContent = '0 G';
         lastImpactValEl.textContent = 'None';
+        recoveryValEl.textContent = 'None Required';
 
         severityBadge.textContent = 'STATUS: NORMAL';
         severityBadge.style.color = '#34d399';
 
         bodyBrain.setAttribute('fill', '#38bdf8');
+        bodyBrain.setAttribute('opacity', '0.6');
         bodyEyes1.setAttribute('fill', '#38bdf8');
         bodyEyes2.setAttribute('fill', '#38bdf8');
         bodyNeck.setAttribute('fill', '#38bdf8');
@@ -785,6 +870,11 @@
         affectNeck.textContent = 'No neck strain or stiffness. Muscles and posture are fully relaxed.';
         affectEyes.textContent = 'Normal vision and steady focus. No light sensitivity or blurriness.';
         affectHeart.textContent = 'Steady resting heart rate and normal blood circulation throughout the body.';
+
+        highlightBox(boxHead, false);
+        highlightBox(boxNeck, false);
+        highlightBox(boxEyes, false);
+        highlightBox(boxHeart, false);
       });
 
       initNodes();
