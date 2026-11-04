@@ -260,7 +260,7 @@
 
     .canvas-container {
       width: 100%;
-      height: 380px;
+      height: 420px;
       background: radial-gradient(circle, #090d16 0%, #02040a 100%);
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -301,7 +301,7 @@
 
     .skeleton-container {
       width: 100%;
-      height: 380px;
+      height: 420px;
       background: radial-gradient(circle, #090d16 0%, #02040a 100%);
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -314,8 +314,8 @@
     }
 
     .skeleton-svg {
-      width: 180px;
-      height: 350px;
+      width: 220px;
+      height: 400px;
     }
 
     .stats-grid {
@@ -487,357 +487,45 @@
               <span class="live-badge">SKELETON MODEL</span>
             </div>
             <div id="skeleton-container" class="skeleton-container">
-              <!-- Clear Skeleton & Vascular Vector Model -->
+              <!-- Anatomical Vector Skeleton Model -->
               <svg class="skeleton-svg" viewBox="0 0 200 400">
-                <!-- Skeleton Bone Structure -->
-                <g fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round">
-                  <!-- Skull -->
-                  <ellipse cx="100" cy="45" rx="18" ry="22" stroke="#cbd5e1" />
-                  <!-- Spine -->
-                  <line x1="100" y1="67" x2="100" y2="190" stroke-width="3" />
-                  <!-- Ribcage -->
-                  <line x1="65" y1="85" x2="135" y2="85" />
-                  <path d="M 75 90 Q 100 120 125 90 M 72 105 Q 100 138 128 105 M 72 120 Q 100 150 128 120" opacity="0.7"/>
-                  <!-- Pelvis -->
-                  <polygon points="75,190 125,190 115,220 85,220" fill="none" />
-                  <!-- Arms -->
-                  <line x1="65" y1="85" x2="45" y2="145" />
-                  <line x1="45" y1="145" x2="35" y2="195" />
-                  <line x1="135" y1="85" x2="155" y2="145" />
-                  <line x1="155" y1="145" x2="165" y2="195" />
-                  <!-- Legs -->
-                  <line x1="85" y1="220" x2="80" y2="300" />
-                  <line x1="80" y1="300" x2="75" y2="380" />
-                  <line x1="115" y1="220" x2="120" y2="300" />
-                  <line x1="120" y1="300" x2="125" y2="380" />
-                </g>
+                <g fill="#cbd5e1" stroke="#94a3b8" stroke-width="0.8">
+                  <!-- Cranium & Jaw -->
+                  <path d="M 85 40 C 85 20, 115 20, 115 40 C 115 50, 110 56, 100 56 C 90 56, 85 50, 85 40 Z" />
+                  <path d="M 90 54 Q 100 62 110 54 L 107 48 L 93 48 Z" fill="#94a3b8" />
+                  <!-- Eye Sockets -->
+                  <circle cx="93" cy="38" r="3.5" fill="#0f172a" />
+                  <circle cx="107" cy="38" r="3.5" fill="#0f172a" />
 
-                <!-- Dynamic Organs & Blood Vessels -->
-                <ellipse id="body-brain" cx="100" cy="45" rx="14" ry="17" fill="#38bdf8" opacity="0.4" />
-                <circle id="body-eyes" cx="93" cy="38" r="3.5" fill="#38bdf8" />
-                <circle id="body-eyes-2" cx="107" cy="38" r="3.5" fill="#38bdf8" />
-                <line id="body-neck" x1="100" y1="67" x2="100" y2="85" stroke="#38bdf8" stroke-width="5" />
-                <circle id="body-heart" cx="108" cy="105" r="9" fill="#38bdf8" />
-                <path id="body-arteries" d="M 100 67 L 100 190 M 100 85 L 65 85 M 100 85 L 135 85 M 100 190 L 85 220 L 80 380 M 100 190 L 115 220 L 120 380" stroke="#38bdf8" stroke-width="2" opacity="0.5" />
-              </svg>
-            </div>
-            <div class="legend-bar">
-              <span class="legend-item"><span class="dot active"></span> Normal Flow</span>
-              <span class="legend-item"><span class="dot damaged"></span> Affected Area</span>
-            </div>
-          </div>
-        </div>
+                  <!-- Vertebrae / Spine Column -->
+                  <g fill="#e2e8f0">
+                    <rect x="97" y="58" width="6" height="3" rx="1" />
+                    <rect x="97" y="63" width="6" height="3" rx="1" />
+                    <rect x="97" y="68" width="6" height="3" rx="1" />
+                    <rect x="96" y="74" width="8" height="4" rx="1" />
+                    <rect x="96" y="80" width="8" height="4" rx="1" />
+                    <rect x="96" y="86" width="8" height="4" rx="1" />
+                    <rect x="95" y="93" width="10" height="5" rx="1" />
+                    <rect x="95" y="100" width="10" height="5" rx="1" />
+                    <rect x="95" y="107" width="10" height="5" rx="1" />
+                    <rect x="94" y="115" width="12" height="6" rx="1" />
+                    <rect x="94" y="123" width="12" height="6" rx="1" />
+                    <rect x="94" y="131" width="12" height="6" rx="1" />
+                    <rect x="94" y="139" width="12" height="6" rx="1" />
+                    <rect x="94" y="147" width="12" height="6" rx="1" />
+                    <rect x="93" y="156" width="14" height="7" rx="1" />
+                    <rect x="93" y="165" width="14" height="7" rx="1" />
+                    <rect x="93" y="174" width="14" height="7" rx="1" />
+                  </g>
 
-        <div class="card">
-          <h2>Kinetic Diagnostics & Body Effects</h2>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span class="stat-label">Active Neural Capacity</span>
-              <span class="stat-value highlight-cyan" id="brain-capacity">10,000 / 10,000 (100%)</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Calculated Kinetic Energy</span>
-              <span class="stat-value" id="energy-val">0 Joules</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Estimated Acceleration Force</span>
-              <span class="stat-value highlight-red" id="g-force-val">0 G</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Last Impact Source</span>
-              <span class="stat-value" id="last-impact-val">None</span>
-            </div>
-          </div>
+                  <!-- Clavicles & Scapulae -->
+                  <path d="M 100 68 L 65 74 Q 60 76 58 80 L 68 80 Z" />
+                  <path d="M 100 68 L 135 74 Q 140 76 142 80 L 132 80 Z" />
 
-          <div class="body-affects-box">
-            <h3>Concussion Symptoms & Body Impact <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
-            <div class="affects-list">
-              <div class="affect-item">
-                <strong>1. Head & Thinking</strong>
-                <p id="affect-brain">No trauma. Clear focus, normal memory, and healthy brain activity.</p>
-              </div>
-              <div class="affect-item">
-                <strong>2. Neck & Spine</strong>
-                <p id="affect-neck">No neck strain or stiffness. Muscles and posture are fully relaxed.</p>
-              </div>
-              <div class="affect-item">
-                <strong>3. Eyes & Vision</strong>
-                <p id="affect-eyes">Normal vision and steady focus. No light sensitivity or blurriness.</p>
-              </div>
-              <div class="affect-item">
-                <strong>4. Heart & Blood Flow</strong>
-                <p id="affect-heart">Steady resting heart rate and normal blood circulation throughout the body.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('brain-canvas');
-      const ctx = canvas.getContext('2d');
-      const canvasContainer = document.getElementById('canvas-container');
-
-      const massSlider = document.getElementById('mass-slider');
-      const speedSlider = document.getElementById('speed-slider');
-      const massVal = document.getElementById('mass-val');
-      const speedVal = document.getElementById('speed-val');
-
-      const brainCapacityEl = document.getElementById('brain-capacity');
-      const energyValEl = document.getElementById('energy-val');
-      const gForceValEl = document.getElementById('g-force-val');
-      const lastImpactValEl = document.getElementById('last-impact-val');
-      const resetBtn = document.getElementById('reset-brain-btn');
-
-      const severityBadge = document.getElementById('severity-badge');
-      const affectBrain = document.getElementById('affect-brain');
-      const affectNeck = document.getElementById('affect-neck');
-      const affectEyes = document.getElementById('affect-eyes');
-      const affectHeart = document.getElementById('affect-heart');
-
-      const bodyBrain = document.getElementById('body-brain');
-      const bodyEyes1 = document.getElementById('body-eyes');
-      const bodyEyes2 = document.getElementById('body-eyes-2');
-      const bodyNeck = document.getElementById('body-neck');
-      const bodyHeart = document.getElementById('body-heart');
-      const bodyArteries = document.getElementById('body-arteries');
-
-      const TOTAL_NODES = 10000;
-      let nodes = new Float32Array(TOTAL_NODES * 3);
-
-      let shockwaveActive = false;
-      let shockRadius = 0;
-      let shockMaxRadius = 220;
-      let shockCenterX = 190;
-      let shockCenterY = 190;
-
-      function initNodes() {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const rx = 140;
-        const ry = 115;
-
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          let x, y, valid = false;
-          while (!valid) {
-            x = centerX + (Math.random() * 2 - 1) * rx;
-            y = centerY + (Math.random() * 2 - 1) * ry;
-
-            const dx = (x - centerX) / rx;
-            const dy = (y - centerY) / ry;
-            if (dx * dx + dy * dy <= 0.85) valid = true;
-          }
-
-          nodes[i * 3] = x;
-          nodes[i * 3 + 1] = y;
-          nodes[i * 3 + 2] = 1.0;
-        }
-      }
-
-      function renderBrain() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.beginPath();
-        ctx.ellipse(canvas.width / 2, canvas.height / 2, 145, 120, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        ctx.fillStyle = '#38bdf8';
-        ctx.beginPath();
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 1.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
-          }
-        }
-        ctx.fill();
-
-        ctx.fillStyle = '#ef4444';
-        ctx.beginPath();
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 0.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
-          }
-        }
-        ctx.fill();
-
-        if (shockwaveActive) {
-          ctx.beginPath();
-          ctx.arc(shockCenterX, shockCenterY, shockRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(248, 113, 113, ${1 - shockRadius / shockMaxRadius})`;
-          ctx.lineWidth = 4;
-          ctx.stroke();
-
-          shockRadius += 8;
-          if (shockRadius > shockMaxRadius) shockwaveActive = false;
-        }
-
-        requestAnimationFrame(renderBrain);
-      }
-
-      function calculatePhysics(massKg, speedMph) {
-        const speedMs = speedMph * 0.44704;
-        const energyJoules = 0.5 * massKg * Math.pow(speedMs, 2);
-        const decelerationMs2 = speedMs / 0.012;
-        const gForce = Math.round((decelerationMs2 / 9.81) * Math.min(massKg / 5, 2.5));
-
-        return { joules: Math.round(energyJoules), gForce: Math.max(gForce, 1) };
-      }
-
-      function getRedShade(severityFactor) {
-        const red = Math.round(255 - severityFactor * 140);
-        const green = Math.round(110 * (1 - severityFactor));
-        const blue = Math.round(110 * (1 - severityFactor));
-        return `rgb(${red}, ${green}, ${blue})`;
-      }
-
-      function executeCollision(name, massKg, speedMph) {
-        const physics = calculatePhysics(massKg, speedMph);
-
-        canvasContainer.classList.remove('shake');
-        void canvasContainer.offsetWidth;
-        canvasContainer.classList.add('shake');
-
-        shockwaveActive = true;
-        shockRadius = 0;
-        shockCenterX = canvas.width / 2 + (Math.random() * 40 - 20);
-        shockCenterY = canvas.height / 2 + (Math.random() * 40 - 20);
-
-        const damagePercent = Math.min(physics.gForce / 150, 0.98);
-        const nodesToDestroy = Math.floor(damagePercent * TOTAL_NODES);
-
-        let count = 0;
-        for (let i = 0; i < TOTAL_NODES && count < nodesToDestroy; i++) {
-          const idx = Math.floor(Math.random() * TOTAL_NODES);
-          if (nodes[idx * 3 + 2] === 1.0) {
-            nodes[idx * 3 + 2] = 0.0;
-            count++;
-          }
-        }
-
-        let remainingActive = 0;
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 1.0) remainingActive++;
-        }
-
-        const capacityPercent = ((remainingActive / TOTAL_NODES) * 100).toFixed(1);
-
-        brainCapacityEl.textContent = `${remainingActive.toLocaleString()} / 10,000 (${capacityPercent}%)`;
-        energyValEl.textContent = `${physics.joules.toLocaleString()} Joules`;
-        gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
-        lastImpactValEl.textContent = name;
-
-        const severityFactor = Math.min(physics.gForce / 140, 1.0);
-        const dynamicRed = getRedShade(severityFactor);
-
-        if (physics.gForce < 20) {
-          severityBadge.textContent = 'STATUS: LIGHT BUMP (SUB-CONCUSSIVE)';
-          severityBadge.style.color = '#38bdf8';
-
-          bodyBrain.setAttribute('fill', '#38bdf8');
-          bodyEyes1.setAttribute('fill', '#38bdf8');
-          bodyEyes2.setAttribute('fill', '#38bdf8');
-          bodyNeck.setAttribute('stroke', '#38bdf8');
-          bodyHeart.setAttribute('fill', '#38bdf8');
-          bodyArteries.setAttribute('stroke', '#38bdf8');
-
-          affectBrain.textContent = 'Light jolt. Brain experiences minor shaking with quick recovery.';
-          affectNeck.textContent = 'Barely any neck movement. Muscles easily absorb the minor force.';
-          affectEyes.textContent = 'Vision is completely clear. No sensitivity to light.';
-          affectHeart.textContent = 'Normal heartbeat and steady blood flow.';
-        } else if (physics.gForce < 60) {
-          severityBadge.textContent = 'STATUS: MILD CONCUSSION';
-          severityBadge.style.color = '#f87171';
-
-          bodyBrain.setAttribute('fill', dynamicRed);
-          bodyEyes1.setAttribute('fill', dynamicRed);
-          bodyEyes2.setAttribute('fill', dynamicRed);
-          bodyNeck.setAttribute('stroke', dynamicRed);
-          bodyHeart.setAttribute('fill', '#38bdf8');
-          bodyArteries.setAttribute('stroke', '#38bdf8');
-
-          affectBrain.textContent = 'Mild headache, slight dizziness, and temporary confusion.';
-          affectNeck.textContent = 'Stiff neck muscles and minor soreness from quick head snap.';
-          affectEyes.textContent = 'Mild blurriness and slight annoyance with bright lights.';
-          affectHeart.textContent = 'Slightly faster heart rate due to sudden surprise and adrenaline.';
-        } else if (physics.gForce < 100) {
-          severityBadge.textContent = 'STATUS: MODERATE CONCUSSION';
-          severityBadge.style.color = '#ef4444';
-
-          bodyBrain.setAttribute('fill', dynamicRed);
-          bodyEyes1.setAttribute('fill', dynamicRed);
-          bodyEyes2.setAttribute('fill', dynamicRed);
-          bodyNeck.setAttribute('stroke', dynamicRed);
-          bodyHeart.setAttribute('fill', dynamicRed);
-          bodyArteries.setAttribute('stroke', dynamicRed);
-
-          affectBrain.textContent = 'Noticeable memory fog, severe headache, dizziness, and trouble concentrating.';
-          affectNeck.textContent = 'Painful neck strain and tight shoulder muscles trying to protect the head.';
-          affectEyes.textContent = 'Double vision, trouble tracking moving objects, and heavy eye fatigue.';
-          affectHeart.textContent = 'Elevated blood pressure and temporary disruption in normal circulation flow.';
-        } else {
-          severityBadge.textContent = 'STATUS: SEVERE HEAD TRAUMA';
-          severityBadge.style.color = '#b91c1c';
-
-          bodyBrain.setAttribute('fill', dynamicRed);
-          bodyEyes1.setAttribute('fill', dynamicRed);
-          bodyEyes2.setAttribute('fill', dynamicRed);
-          bodyNeck.setAttribute('stroke', dynamicRed);
-          bodyHeart.setAttribute('fill', dynamicRed);
-          bodyArteries.setAttribute('stroke', dynamicRed);
-
-          affectBrain.textContent = 'Critical brain shaking, potential blackout, and severe long-lasting dizziness.';
-          affectNeck.textContent = 'Heavy cervical spine trauma and severe muscle spasm.';
-          affectEyes.textContent = 'Unsteady pupil reaction, extreme light sensitivity, and dark spots in vision.';
-          affectHeart.textContent = 'Stressed blood flow regulation and high cardiovascular strain.';
-        }
-      }
-
-      massSlider.addEventListener('input', (e) => massVal.textContent = `${e.target.value} kg`);
-      speedSlider.addEventListener('input', (e) => speedVal.textContent = `${e.target.value} mph`);
-
-      document.getElementById('trigger-custom-btn').addEventListener('click', () => {
-        executeCollision(`Custom (${massSlider.value}kg @ ${speedSlider.value}mph)`, parseFloat(massSlider.value), parseInt(speedSlider.value, 10));
-      });
-
-      document.querySelectorAll('.impact-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          executeCollision(btn.getAttribute('data-name'), parseFloat(btn.getAttribute('data-mass')), parseInt(btn.getAttribute('data-speed'), 10));
-        });
-      });
-
-      resetBtn.addEventListener('click', () => {
-        initNodes();
-        brainCapacityEl.textContent = '10,000 / 10,000 (100%)';
-        energyValEl.textContent = '0 Joules';
-        gForceValEl.textContent = '0 G';
-        lastImpactValEl.textContent = 'None';
-
-        severityBadge.textContent = 'STATUS: NORMAL';
-        severityBadge.style.color = '#34d399';
-
-        bodyBrain.setAttribute('fill', '#38bdf8');
-        bodyEyes1.setAttribute('fill', '#38bdf8');
-        bodyEyes2.setAttribute('fill', '#38bdf8');
-        bodyNeck.setAttribute('stroke', '#38bdf8');
-        bodyHeart.setAttribute('fill', '#38bdf8');
-        bodyArteries.setAttribute('stroke', '#38bdf8');
-
-        affectBrain.textContent = 'No trauma. Clear focus, normal memory, and healthy brain activity.';
-        affectNeck.textContent = 'No neck strain or stiffness. Muscles and posture are fully relaxed.';
-        affectEyes.textContent = 'Normal vision and steady focus. No light sensitivity or blurriness.';
-        affectHeart.textContent = 'Steady resting heart rate and normal blood circulation throughout the body.';
-      });
-
-      initNodes();
-      renderBrain();
-    });
-  </script>
-</body>
-</html>
+                  <!-- Ribcage (Sternum & Ribs) -->
+                  <path d="M 98 76 L 102 76 L 102 125 L 98 125 Z" fill="#f8fafc" />
+                  <g fill="none" stroke="#e2e8f0" stroke-width="2.5">
+                    <path d="M 98 82 Q 75 80 72 95 Q 85 105 98 96" />
+                    <path d="M 102 82 Q 125 80 128 95 Q 115 105 102 96" />
+                    <path d="M 98 92 Q 72 90 68 108 Q 85 118 98 108" />
+                    <path d="M 102 92
