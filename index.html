@@ -362,7 +362,7 @@
       padding: 12px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     .citations-card ul {
@@ -505,7 +505,7 @@
                 <!-- Lower Limbs (Legs) -->
                 <path d="M 88 222 L 82 300 L 76 380 M 112 222 L 118 300 L 124 380" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
 
-                <!-- Dynamic Highlightable Body Parts (Shifts color & opacity based on activity/trauma) -->
+                <!-- Dynamic Highlightable Body Parts -->
                 <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.6" />
                 <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
                 <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
@@ -569,7 +569,7 @@
 
         <!-- PEER-REVIEWED RESEARCH CITATIONS -->
         <div class="card citations-card">
-          <h2>Data and calculations with sources.</h2>
+          <h2>Peer-Reviewed Concussion & G-Force Research Data</h2>
           <ul>
             <li>
               <strong>NIH / National Center for Biotechnology Information (NCBI):</strong> Research indicates human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g[cite: 1]. 
@@ -766,7 +766,6 @@
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
 
-        // Highlight active vs impacted parts on skeleton model
         bodyBrain.setAttribute('fill', dynamicRed);
         bodyBrain.setAttribute('opacity', 0.5 + severityFactor * 0.5);
         bodyEyes1.setAttribute('fill', dynamicRed);
