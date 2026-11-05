@@ -342,14 +342,14 @@
       letter-spacing: 0.08em;
     }
 
-    .citations-card ul {
+    .facts-card ul, .citations-card ul {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
-    .citations-card li {
+    .facts-card li, .citations-card li {
       font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.5;
@@ -357,7 +357,7 @@
       position: relative;
     }
 
-    .citations-card li::before {
+    .facts-card li::before, .citations-card li::before {
       content: '•';
       color: var(--accent-cyan);
       font-size: 1.2rem;
@@ -507,6 +507,35 @@
             <h3>Concussion Symptoms & Body Impact</h3>
             <p id="affect-desc">No trauma recorded. Clear focus, normal memory, and healthy brain activity.</p>
           </div>
+        </div>
+
+        <!-- RANDOM FACTS ABOUT CONCUSSIONS -->
+        <div class="card facts-card">
+          <h2>Fast Facts: Concussion Science</h2>
+          <ul>
+            <li><strong>You Don't Have to Lose Consciousness:</strong> Over 90% of concussions occur without a loss of consciousness; symptoms like dizziness, confusion, or light sensitivity are far more common indicators.</li>
+            <li><strong>It's a Metabolic Crisis, Not Just Physical Structural Damage:</strong> A concussion causes brain cells to undergo rapid chemical changes and energy depletion, temporary creating a mismatch between energy needed and blood flow available.</li>
+            <li><strong>Rotational Force Is Often Worse Than Linear Direct Blows:</strong> Rotational acceleration (head twisting rapidly) causes significantly more severe shearing stress on neural axons than direct straight-on impacts.</li>
+          </ul>
+        </div>
+
+        <!-- PEER-REVIEWED RESEARCH CITATIONS -->
+        <div class="card citations-card">
+          <h2>Peer-Reviewed Concussion & G-Force Research Data</h2>
+          <ul>
+            <li>
+              <strong>NIH / National Center for Biotechnology Information (NCBI):</strong> Research indicates human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g[cite: 1]. 
+              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169720/" target="_blank" rel="noopener">Read NIH Research[cite: 1]</a>
+            </li>
+            <li>
+              <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions and head impact safety ratings.
+              <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Data</a>
+            </li>
+            <li>
+              <strong>CDC HEADS UP Concussion Thresholds:</strong> Dynamic head acceleration guidelines detailing mild TBI (mTBI) vs severe traumatic brain injury recovery intervals.
+              <a href="https://www.cdc.gov/headsup/index.html" target="_blank" rel="noopener">CDC HEADS UP Center</a>
+            </li>
+          </ul>
         </div>
 
       </section>
