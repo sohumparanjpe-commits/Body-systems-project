@@ -842,7 +842,6 @@
         executeCollision(`Custom (${massSlider.value}kg @ ${speedSlider.value}mph)`, parseFloat(massSlider.value), parseInt(speedSlider.value, 10));
       });
 
-      // Fixed preset button listener matching the exact preset attributes
       document.querySelectorAll('.impact-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const m = parseFloat(btn.getAttribute('data-mass'));
