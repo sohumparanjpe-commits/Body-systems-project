@@ -340,29 +340,6 @@
       text-transform: uppercase;
       color: var(--accent-cyan);
       letter-spacing: 0.08em;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .affects-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 600px) {
-      .affects-list {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .affect-item {
-      background: rgba(15, 23, 42, 0.6);
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: all 0.3s ease;
     }
 
     .citations-card ul {
@@ -428,12 +405,12 @@
         <div class="card">
           <h2>Standard Impact Presets</h2>
           <div class="impact-buttons">
-            <button class="impact-btn" data-mass="0.058" data-speed="60" data-name="Tennis Ball (60 mph)">Tennis Ball</button>
-            <button class="impact-btn" data-mass="4.0" data-speed="25" data-name="Bare-knuckle Punch (25 mph)">Punched</button>
-            <button class="impact-btn" data-mass="0.17" data-speed="90" data-name="Hockey Puck (90 mph)">Hockey Puck</button>
-            <button class="impact-btn" data-mass="80" data-speed="17" data-name="10ft Fall / Ground Impact">10ft Fall</button>
-            <button class="impact-btn" data-mass="1500" data-speed="40" data-name="Car Crash (40 mph)">Car Crash</button>
-            <button class="impact-btn" data-mass="12000" data-speed="30" data-name="Bus Collision (30 mph)">Bus Hit</button>
+            <button class="impact-btn" onclick="simulateImpact(0.058, 60)">Tennis Ball</button>
+            <button class="impact-btn" onclick="simulateImpact(4.0, 25)">Punched</button>
+            <button class="impact-btn" onclick="simulateImpact(0.17, 90)">Hockey Puck</button>
+            <button class="impact-btn" onclick="simulateImpact(80, 17)">10ft Fall</button>
+            <button class="impact-btn" onclick="simulateImpact(1500, 40)">Car Crash</button>
+            <button class="impact-btn" onclick="simulateImpact(12000, 30)">Bus Hit</button>
           </div>
         </div>
 
@@ -444,7 +421,7 @@
               <span>Object Mass:</span>
               <strong id="mass-val">10.0 kg</strong>
             </div>
-            <input type="range" id="mass-slider" min="0.01" max="500" step="0.5" value="10.0" />
+            <input type="range" id="mass-slider" min="0.01" max="500" step="0.5" value="10.0" oninput="updateSliderLabels()" />
           </div>
 
           <div class="slider-group">
@@ -452,23 +429,21 @@
               <span>Impact Speed:</span>
               <strong id="speed-val">30 mph</strong>
             </div>
-            <input type="range" id="speed-slider" min="1" max="120" step="1" value="30" />
+            <input type="range" id="speed-slider" min="1" max="120" step="1" value="30" oninput="updateSliderLabels()" />
           </div>
 
-          <button id="trigger-custom-btn" class="primary-btn">Simulate Custom Collision</button>
+          <button class="primary-btn" onclick="simulateCustom()">Simulate Custom Collision</button>
         </div>
 
         <div class="card">
-          <button id="reset-brain-btn" class="reset-btn">Reset Simulator & Body Model</button>
+          <button class="reset-btn" onclick="resetSimulator()">Reset Simulator & Body Model</button>
         </div>
       </section>
 
       <!-- RIGHT VISUALIZERS & TELEMETRY -->
       <section class="visual-column">
         
-        <!-- VISUAL PANELS GRID (BRAIN + SKELETON) -->
         <div class="visual-grid">
-          
           <!-- BRAIN MATRIX PANEL -->
           <div class="visual-panel-box" id="brain-panel-box">
             <div class="panel-title">
@@ -484,7 +459,7 @@
             </div>
           </div>
 
-          <!-- SKELETON & BLOOD FLOW PANEL -->
+          <!-- SKELETON PANEL -->
           <div class="visual-panel-box">
             <div class="panel-title">
               <span>Skeleton & Blood Flow</span>
@@ -492,39 +467,23 @@
             </div>
             <div class="canvas-container">
               <svg class="skeleton-svg" viewBox="0 0 200 400">
-                <!-- Cranium & Jaw -->
                 <path d="M 85 25 Q 100 12 115 25 Q 126 36 122 52 Q 115 62 100 65 Q 85 62 78 52 Q 74 36 85 25 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
-                <!-- Spine -->
                 <path d="M 100 65 L 100 200" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="2,2" />
-                <!-- Ribcage -->
                 <path d="M 72 75 Q 100 80 128 75 M 68 85 Q 100 92 132 85 M 66 97 Q 100 105 134 97 M 66 110 Q 100 118 134 110 M 70 122 Q 100 130 130 122" fill="none" stroke="#cbd5e1" stroke-width="1.8" opacity="0.8" />
-                <!-- Pelvis -->
                 <path d="M 78 195 Q 100 185 122 195 Q 128 215 115 222 Q 100 226 85 222 Q 72 215 78 195 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
-                <!-- Upper Limbs -->
                 <path d="M 72 75 L 50 130 L 40 185 M 128 75 L 150 130 L 160 185" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
-                <!-- Lower Limbs (Legs) -->
                 <path d="M 88 222 L 82 300 L 76 380 M 112 222 L 118 300 L 124 380" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
-
-                <!-- Dynamic Highlightable Body Parts -->
-                <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
-                <rect id="body-neck" x="97" y="65" width="6" height="10" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-heart" cx="105" cy="98" r="7" fill="#38bdf8" opacity="0.6" />
-                <path id="body-arteries" d="M 100 65 L 100 200 M 100 85 L 72 85 M 100 85 L 128 85 M 100 200 L 88 222 L 82 380 M 100 200 L 112 222 L 124 380" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" />
               </svg>
             </div>
             <div class="legend-bar">
               <span class="legend-item"><span class="dot active"></span> Active / Normal</span>
-              <span class="legend-item"><span class="dot damaged"></span> Impacted / Stressed</span>
             </div>
           </div>
-
         </div>
 
-        <!-- TELEMETRY & BODY AFFECTS -->
+        <!-- TELEMETRY -->
         <div class="card">
-          <h2>Kinetic Diagnostics & Body Effects</h2>
+          <h2>Kinetic Diagnostics & Telemetry</h2>
           <div class="stats-grid">
             <div class="stat-card">
               <span class="stat-label">Active Neural Capacity</span>
@@ -545,45 +504,9 @@
           </div>
 
           <div class="body-affects-box">
-            <h3>Concussion Symptoms & Body Impact <span id="severity-badge" style="color: #34d399; font-size: 0.8rem;">STATUS: NORMAL</span></h3>
-            <div class="affects-list">
-              <div class="affect-item" id="box-head">
-                <strong>1. Head & Thinking</strong>
-                <p id="affect-brain">No trauma. Clear focus, normal memory, and healthy brain activity.</p>
-              </div>
-              <div class="affect-item" id="box-neck">
-                <strong>2. Neck & Spine</strong>
-                <p id="affect-neck">No neck strain or stiffness. Muscles and posture are fully relaxed.</p>
-              </div>
-              <div class="affect-item" id="box-eyes">
-                <strong>3. Eyes & Vision</strong>
-                <p id="affect-eyes">Normal vision and steady focus. No light sensitivity or blurriness.</p>
-              </div>
-              <div class="affect-item" id="box-heart">
-                <strong>4. Heart & Blood Flow</strong>
-                <p id="affect-heart">Steady resting heart rate and normal blood circulation throughout the body.</p>
-              </div>
-            </div>
+            <h3>Concussion Symptoms & Body Impact</h3>
+            <p id="affect-desc">No trauma recorded. Clear focus, normal memory, and healthy brain activity.</p>
           </div>
-        </div>
-
-        <!-- PEER-REVIEWED RESEARCH CITATIONS -->
-        <div class="card citations-card">
-          <h2>Peer-Reviewed Concussion & G-Force Research Data</h2>
-          <ul>
-            <li>
-              <strong>NIH / National Center for Biotechnology Information (NCBI):</strong> Research indicates human concussions typically occur at linear accelerations between <strong>60g and 98g</strong>, with severe axonal shearing occurring beyond 120g[cite: 1]. 
-              <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169720/" target="_blank" rel="noopener">Read NIH Research[cite: 1]</a>
-            </li>
-            <li>
-              <strong>Virginia Tech Helmet Lab:</strong> Empirical impact testing data measuring peak head accelerations across sports collisions and head impact safety ratings.
-              <a href="https://www.helmet.beam.vt.edu/" target="_blank" rel="noopener">Explore Virginia Tech Data</a>
-            </li>
-            <li>
-              <strong>CDC HEADS UP Concussion Thresholds:</strong> Dynamic head acceleration guidelines detailing mild TBI (mTBI) vs severe traumatic brain injury recovery intervals.
-              <a href="https://www.cdc.gov/headsup/index.html" target="_blank" rel="noopener">CDC HEADS UP Center</a>
-            </li>
-          </ul>
         </div>
 
       </section>
@@ -592,295 +515,166 @@
   </main>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const canvas = document.getElementById('brain-canvas');
-      const ctx = canvas.getContext('2d');
-      const brainPanelBox = document.getElementById('brain-panel-box');
+    const canvas = document.getElementById('brain-canvas');
+    const ctx = canvas.getContext('2d');
+    const brainPanelBox = document.getElementById('brain-panel-box');
 
-      const massSlider = document.getElementById('mass-slider');
-      const speedSlider = document.getElementById('speed-slider');
-      const massVal = document.getElementById('mass-val');
-      const speedVal = document.getElementById('speed-val');
+    const TOTAL_NODES = 10000;
+    let nodes = new Float32Array(TOTAL_NODES * 3);
 
-      const brainCapacityEl = document.getElementById('brain-capacity');
-      const energyValEl = document.getElementById('energy-val');
-      const gForceValEl = document.getElementById('g-force-val');
-      const recoveryValEl = document.getElementById('recovery-val');
-      const resetBtn = document.getElementById('reset-brain-btn');
+    let shockwaveActive = false;
+    let shockRadius = 0;
+    let shockMaxRadius = 180;
+    let shockCenterX = 190;
+    let shockCenterY = 190;
 
-      const severityBadge = document.getElementById('severity-badge');
-      const affectBrain = document.getElementById('affect-brain');
-      const affectNeck = document.getElementById('affect-neck');
-      const affectEyes = document.getElementById('affect-eyes');
-      const affectHeart = document.getElementById('affect-heart');
+    function initNodes() {
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const rx = 130;
+      const ry = 110;
 
-      const boxHead = document.getElementById('box-head');
-      const boxNeck = document.getElementById('box-neck');
-      const boxEyes = document.getElementById('box-eyes');
-      const boxHeart = document.getElementById('box-heart');
+      for (let i = 0; i < TOTAL_NODES; i++) {
+        let x, y, valid = false;
+        while (!valid) {
+          x = centerX + (Math.random() * 2 - 1) * rx;
+          y = centerY + (Math.random() * 2 - 1) * ry;
 
-      const bodyBrain = document.getElementById('body-brain');
-      const bodyEyes1 = document.getElementById('body-eyes');
-      const bodyEyes2 = document.getElementById('body-eyes-2');
-      const bodyNeck = document.getElementById('body-neck');
-      const bodyHeart = document.getElementById('body-heart');
-      const bodyArteries = document.getElementById('body-arteries');
+          const dx = (x - centerX) / rx;
+          const dy = (y - centerY) / ry;
+          if (dx * dx + dy * dy <= 0.85) valid = true;
+        }
 
-      const TOTAL_NODES = 10000;
-      let nodes = new Float32Array(TOTAL_NODES * 3);
+        nodes[i * 3] = x;
+        nodes[i * 3 + 1] = y;
+        nodes[i * 3 + 2] = 1.0;
+      }
+    }
 
-      let shockwaveActive = false;
-      let shockRadius = 0;
-      let shockMaxRadius = 180;
-      let shockCenterX = 190;
-      let shockCenterY = 190;
+    function renderBrain() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      function initNodes() {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const rx = 130;
-        const ry = 110;
+      ctx.beginPath();
+      ctx.ellipse(canvas.width / 2, canvas.height / 2, 135, 115, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
 
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          let x, y, valid = false;
-          while (!valid) {
-            x = centerX + (Math.random() * 2 - 1) * rx;
-            y = centerY + (Math.random() * 2 - 1) * ry;
-
-            const dx = (x - centerX) / rx;
-            const dy = (y - centerY) / ry;
-            if (dx * dx + dy * dy <= 0.85) valid = true;
-          }
-
-          nodes[i * 3] = x;
-          nodes[i * 3 + 1] = y;
-          nodes[i * 3 + 2] = 1.0;
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      for (let i = 0; i < TOTAL_NODES; i++) {
+        if (nodes[i * 3 + 2] === 1.0) {
+          ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
         }
       }
+      ctx.fill();
 
-      function renderBrain() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      for (let i = 0; i < TOTAL_NODES; i++) {
+        if (nodes[i * 3 + 2] === 0.0) {
+          ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
+        }
+      }
+      ctx.fill();
 
+      if (shockwaveActive) {
         ctx.beginPath();
-        ctx.ellipse(canvas.width / 2, canvas.height / 2, 135, 115, 0, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
-        ctx.lineWidth = 2;
+        ctx.arc(shockCenterX, shockCenterY, shockRadius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(248, 113, 113, ${1 - shockRadius / shockMaxRadius})`;
+        ctx.lineWidth = 4;
         ctx.stroke();
 
-        ctx.fillStyle = '#38bdf8';
-        ctx.beginPath();
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 1.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
-          }
-        }
-        ctx.fill();
-
-        ctx.fillStyle = '#ef4444';
-        ctx.beginPath();
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 0.0) {
-            ctx.rect(nodes[i * 3] - 1, nodes[i * 3 + 1] - 1, 1.8, 1.8);
-          }
-        }
-        ctx.fill();
-
-        if (shockwaveActive) {
-          ctx.beginPath();
-          ctx.arc(shockCenterX, shockCenterY, shockRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(248, 113, 113, ${1 - shockRadius / shockMaxRadius})`;
-          ctx.lineWidth = 4;
-          ctx.stroke();
-
-          shockRadius += 8;
-          if (shockRadius > shockMaxRadius) shockwaveActive = false;
-        }
-
-        requestAnimationFrame(renderBrain);
+        shockRadius += 8;
+        if (shockRadius > shockMaxRadius) shockwaveActive = false;
       }
 
-      function calculatePhysics(massKg, speedMph) {
-        const speedMs = speedMph * 0.44704;
-        const energyJoules = 0.5 * massKg * Math.pow(speedMs, 2);
-        const decelerationMs2 = speedMs / 0.012;
-        const gForce = Math.round((decelerationMs2 / 9.81) * Math.min(massKg / 5, 2.5));
+      requestAnimationFrame(renderBrain);
+    }
 
-        return { joules: Math.round(energyJoules), gForce: Math.max(gForce, 1) };
-      }
+    function updateSliderLabels() {
+      document.getElementById('mass-val').textContent = document.getElementById('mass-slider').value + ' kg';
+      document.getElementById('speed-val').textContent = document.getElementById('speed-slider').value + ' mph';
+    }
 
-      function getRedShade(severityFactor) {
-        const red = Math.round(255 - severityFactor * 140);
-        const green = Math.round(110 * (1 - severityFactor));
-        const blue = Math.round(110 * (1 - severityFactor));
-        return `rgb(${red}, ${green}, ${blue})`;
-      }
+    function simulateCustom() {
+      const mass = parseFloat(document.getElementById('mass-slider').value);
+      const speed = parseFloat(document.getElementById('speed-slider').value);
+      simulateImpact(mass, speed);
+    }
 
-      function highlightBox(boxElement, isAffected) {
-        if (isAffected) {
-          boxElement.style.borderColor = '#f87171';
-          boxElement.style.background = 'rgba(239, 68, 68, 0.15)';
-        } else {
-          boxElement.style.borderColor = 'rgba(255, 255, 255, 0.05)';
-          boxElement.style.background = 'rgba(15, 23, 42, 0.6)';
+    function simulateImpact(massKg, speedMph) {
+      brainPanelBox.classList.remove('shake');
+      void brainPanelBox.offsetWidth;
+      brainPanelBox.classList.add('shake');
+
+      shockwaveActive = true;
+      shockRadius = 0;
+      shockCenterX = canvas.width / 2 + (Math.random() * 40 - 20);
+      shockCenterY = canvas.height / 2 + (Math.random() * 40 - 20);
+
+      const speedMs = speedMph * 0.44704;
+      const energyJoules = 0.5 * massKg * Math.pow(speedMs, 2);
+      const decelerationMs2 = speedMs / 0.012;
+      const gForce = Math.round((decelerationMs2 / 9.81) * Math.min(massKg / 5, 2.5));
+
+      const damagePercent = Math.min(gForce / 150, 0.98);
+      const nodesToDestroy = Math.floor(damagePercent * TOTAL_NODES);
+
+      let count = 0;
+      for (let i = 0; i < TOTAL_NODES && count < nodesToDestroy; i++) {
+        const idx = Math.floor(Math.random() * TOTAL_NODES);
+        if (nodes[idx * 3 + 2] === 1.0) {
+          nodes[idx * 3 + 2] = 0.0;
+          count++;
         }
       }
 
-      function executeCollision(name, massKg, speedMph) {
-        const physics = calculatePhysics(massKg, speedMph);
-
-        brainPanelBox.classList.remove('shake');
-        void brainPanelBox.offsetWidth;
-        brainPanelBox.classList.add('shake');
-
-        shockwaveActive = true;
-        shockRadius = 0;
-        shockCenterX = canvas.width / 2 + (Math.random() * 40 - 20);
-        shockCenterY = canvas.height / 2 + (Math.random() * 40 - 20);
-
-        const damagePercent = Math.min(physics.gForce / 150, 0.98);
-        const nodesToDestroy = Math.floor(damagePercent * TOTAL_NODES);
-
-        let count = 0;
-        for (let i = 0; i < TOTAL_NODES && count < nodesToDestroy; i++) {
-          const idx = Math.floor(Math.random() * TOTAL_NODES);
-          if (nodes[idx * 3 + 2] === 1.0) {
-            nodes[idx * 3 + 2] = 0.0;
-            count++;
-          }
-        }
-
-        let remainingActive = 0;
-        for (let i = 0; i < TOTAL_NODES; i++) {
-          if (nodes[i * 3 + 2] === 1.0) remainingActive++;
-        }
-
-        const capacityPercent = ((remainingActive / TOTAL_NODES) * 100).toFixed(1);
-
-        brainCapacityEl.textContent = `${remainingActive.toLocaleString()} / 10,000 (${capacityPercent}%)`;
-        energyValEl.textContent = `${physics.joules.toLocaleString()} Joules`;
-        gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
-
-        const severityFactor = Math.min(physics.gForce / 140, 1.0);
-        const dynamicRed = getRedShade(severityFactor);
-
-        // Update Skeleton SVG elements dynamically
-        bodyBrain.setAttribute('fill', dynamicRed);
-        bodyBrain.setAttribute('opacity', 0.5 + severityFactor * 0.5);
-        bodyEyes1.setAttribute('fill', dynamicRed);
-        bodyEyes2.setAttribute('fill', dynamicRed);
-        bodyNeck.setAttribute('fill', dynamicRed);
-        bodyHeart.setAttribute('fill', physics.gForce > 50 ? dynamicRed : '#38bdf8');
-        bodyArteries.setAttribute('stroke', physics.gForce > 50 ? dynamicRed : '#38bdf8');
-
-        if (physics.gForce < 20) {
-          severityBadge.textContent = 'STATUS: LIGHT BUMP (SUB-CONCUSSIVE)';
-          severityBadge.style.color = '#38bdf8';
-          recoveryValEl.textContent = '24 - 48 Hours Rest';
-
-          affectBrain.textContent = 'Light jolt. Brain experiences minor shaking with quick recovery.';
-          affectNeck.textContent = 'Barely any neck movement. Muscles easily absorb the minor force.';
-          affectEyes.textContent = 'Vision is completely clear. No sensitivity to light.';
-          affectHeart.textContent = 'Normal heartbeat and steady blood flow.';
-
-          highlightBox(boxHead, true);
-          highlightBox(boxNeck, false);
-          highlightBox(boxEyes, false);
-          highlightBox(boxHeart, false);
-        } else if (physics.gForce < 60) {
-          severityBadge.textContent = 'STATUS: MILD CONCUSSION';
-          severityBadge.style.color = '#f87171';
-          recoveryValEl.textContent = '1 - 2 Weeks Rest';
-
-          affectBrain.textContent = 'Mild headache, slight dizziness, and temporary confusion.';
-          affectNeck.textContent = 'Stiff neck muscles and minor soreness from quick head snap.';
-          affectEyes.textContent = 'Mild blurriness and slight annoyance with bright lights.';
-          affectHeart.textContent = 'Slightly faster heart rate due to sudden surprise and adrenaline.';
-
-          highlightBox(boxHead, true);
-          highlightBox(boxNeck, true);
-          highlightBox(boxEyes, true);
-          highlightBox(boxHeart, false);
-        } else if (physics.gForce < 100) {
-          severityBadge.textContent = 'STATUS: MODERATE CONCUSSION';
-          severityBadge.style.color = '#ef4444';
-          recoveryValEl.textContent = '4 - 8 Weeks Restricted Activity';
-
-          affectBrain.textContent = 'Noticeable memory fog, severe headache, dizziness, and trouble concentrating.';
-          affectNeck.textContent = 'Painful neck strain and tight shoulder muscles trying to protect the head.';
-          affectEyes.textContent = 'Double vision, trouble tracking moving objects, and heavy eye fatigue.';
-          affectHeart.textContent = 'Elevated blood pressure and temporary disruption in normal circulation flow.';
-
-          highlightBox(boxHead, true);
-          highlightBox(boxNeck, true);
-          highlightBox(boxEyes, true);
-          highlightBox(boxHeart, true);
-        } else {
-          severityBadge.textContent = 'STATUS: SEVERE HEAD TRAUMA';
-          severityBadge.style.color = '#b91c1c';
-          recoveryValEl.textContent = '3 - 6+ Months Medical Supervision';
-
-          affectBrain.textContent = 'Critical brain shaking, potential blackout, and severe long-lasting dizziness.';
-          affectNeck.textContent = 'Heavy cervical spine trauma and severe muscle spasm.';
-          affectEyes.textContent = 'Unsteady pupil reaction, extreme light sensitivity, and dark spots in vision.';
-          affectHeart.textContent = 'Stressed blood flow regulation and high cardiovascular strain.';
-
-          highlightBox(boxHead, true);
-          highlightBox(boxNeck, true);
-          highlightBox(boxEyes, true);
-          highlightBox(boxHeart, true);
-        }
+      let remainingActive = 0;
+      for (let i = 0; i < TOTAL_NODES; i++) {
+        if (nodes[i * 3 + 2] === 1.0) remainingActive++;
       }
 
-      massSlider.addEventListener('input', (e) => massVal.textContent = `${e.target.value} kg`);
-      speedSlider.addEventListener('input', (e) => speedVal.textContent = `${e.target.value} mph`);
+      const capacityPercent = ((remainingActive / TOTAL_NODES) * 100).toFixed(1);
 
-      document.getElementById('trigger-custom-btn').addEventListener('click', () => {
-        executeCollision(`Custom (${massSlider.value}kg @ ${speedSlider.value}mph)`, parseFloat(massSlider.value), parseInt(speedSlider.value, 10));
-      });
+      document.getElementById('brain-capacity').textContent = `${remainingActive.toLocaleString()} / 10,000 (${capacityPercent}%)`;
+      document.getElementById('energy-val').textContent = `${Math.round(energyJoules).toLocaleString()} Joules`;
+      document.getElementById('g-force-val').textContent = `${Math.max(gForce, 1).toLocaleString()} G`;
 
-      document.querySelectorAll('.impact-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const m = parseFloat(btn.getAttribute('data-mass'));
-          const s = parseInt(btn.getAttribute('data-speed'), 10);
-          const name = btn.getAttribute('data-name');
-          executeCollision(name, m, s);
-        });
-      });
+      let recoveryText = "None Required";
+      let descText = "No trauma recorded. Clear focus, normal memory, and healthy brain activity.";
 
-      resetBtn.addEventListener('click', () => {
-        initNodes();
-        brainCapacityEl.textContent = '10,000 / 10,000 (100%)';
-        energyValEl.textContent = '0 Joules';
-        gForceValEl.textContent = '0 G';
-        recoveryValEl.textContent = 'None Required';
+      if (gForce >= 100) {
+        recoveryText = "3 - 6+ Months Medical Supervision";
+        descText = "Severe head trauma. Critical neural shearing, potential blackout, dizziness, and heavy balance disruption.";
+      } else if (gForce >= 60) {
+        recoveryText = "4 - 8 Weeks Restricted Activity";
+        descText = "Moderate concussion. Noticeable memory fog, severe headache, dizziness, and trouble concentrating.";
+      } else if (gForce >= 20) {
+        recoveryText = "1 - 2 Weeks Rest";
+        descText = "Mild concussion. Mild headache, slight dizziness, and temporary confusion.";
+      } else {
+        recoveryText = "24 - 48 Hours Rest";
+        descText = "Sub-concussive jolt. Minor shaking with quick recovery and minimal symptoms.";
+      }
 
-        severityBadge.textContent = 'STATUS: NORMAL';
-        severityBadge.style.color = '#34d399';
+      document.getElementById('recovery-val').textContent = recoveryText;
+      document.getElementById('affect-desc').textContent = descText;
+    }
 
-        bodyBrain.setAttribute('fill', '#38bdf8');
-        bodyBrain.setAttribute('opacity', '0.6');
-        bodyEyes1.setAttribute('fill', '#38bdf8');
-        bodyEyes2.setAttribute('fill', '#38bdf8');
-        bodyNeck.setAttribute('fill', '#38bdf8');
-        bodyHeart.setAttribute('fill', '#38bdf8');
-        bodyArteries.setAttribute('stroke', '#38bdf8');
-
-        affectBrain.textContent = 'No trauma. Clear focus, normal memory, and healthy brain activity.';
-        affectNeck.textContent = 'No neck strain or stiffness. Muscles and posture are fully relaxed.';
-        affectEyes.textContent = 'Normal vision and steady focus. No light sensitivity or blurriness.';
-        affectHeart.textContent = 'Steady resting heart rate and normal blood circulation throughout the body.';
-
-        highlightBox(boxHead, false);
-        highlightBox(boxNeck, false);
-        highlightBox(boxEyes, false);
-        highlightBox(boxHeart, false);
-      });
-
+    function resetSimulator() {
       initNodes();
-      renderBrain();
-    });
+      document.getElementById('brain-capacity').textContent = '10,000 / 10,000 (100%)';
+      document.getElementById('energy-val').textContent = '0 Joules';
+      document.getElementById('g-force-val').textContent = '0 G';
+      document.getElementById('recovery-val').textContent = 'None Required';
+      document.getElementById('affect-desc').textContent = 'No trauma recorded. Clear focus, normal memory, and healthy brain activity.';
+    }
+
+    initNodes();
+    renderBrain();
   </script>
 </body>
 </html>
