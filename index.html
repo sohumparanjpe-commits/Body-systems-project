@@ -493,25 +493,17 @@
             <div class="canvas-container">
               <svg class="skeleton-svg" viewBox="0 0 200 400">
                 <!-- Cranium & Jaw -->
-                <path d="M 85 25 Q 100 12 115 25 Q 126 36 122 52 Q 115 62 100 65 Q 85 62 78 52 Q 74 36 85 25 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
+                <path id="skel-head" d="M 85 25 Q 100 12 115 25 Q 126 36 122 52 Q 115 62 100 65 Q 85 62 78 52 Q 74 36 85 25 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
                 <!-- Spine -->
-                <path d="M 100 65 L 100 200" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="2,2" />
+                <path id="skel-spine" d="M 100 65 L 100 200" fill="none" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="2,2" />
                 <!-- Ribcage -->
-                <path d="M 72 75 Q 100 80 128 75 M 68 85 Q 100 92 132 85 M 66 97 Q 100 105 134 97 M 66 110 Q 100 118 134 110 M 70 122 Q 100 130 130 122" fill="none" stroke="#cbd5e1" stroke-width="1.8" opacity="0.8" />
+                <path id="skel-ribs" d="M 72 75 Q 100 80 128 75 M 68 85 Q 100 92 132 85 M 66 97 Q 100 105 134 97 M 66 110 Q 100 118 134 110 M 70 122 Q 100 130 130 122" fill="none" stroke="#cbd5e1" stroke-width="1.8" opacity="0.8" />
                 <!-- Pelvis -->
-                <path d="M 78 195 Q 100 185 122 195 Q 128 215 115 222 Q 100 226 85 222 Q 72 215 78 195 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
+                <path id="skel-pelvis" d="M 78 195 Q 100 185 122 195 Q 128 215 115 222 Q 100 226 85 222 Q 72 215 78 195 Z" fill="none" stroke="#cbd5e1" stroke-width="2" />
                 <!-- Upper Limbs -->
-                <path d="M 72 75 L 50 130 L 40 185 M 128 75 L 150 130 L 160 185" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
+                <path id="skel-arms" d="M 72 75 L 50 130 L 40 185 M 128 75 L 150 130 L 160 185" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
                 <!-- Lower Limbs (Legs) -->
-                <path d="M 88 222 L 82 300 L 76 380 M 112 222 L 118 300 L 124 380" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
-
-                <!-- Dynamic Highlightable Body Parts -->
-                <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
-                <rect id="body-neck" x="97" y="65" width="6" height="10" fill="#38bdf8" opacity="0.6" />
-                <circle id="body-heart" cx="105" cy="98" r="7" fill="#38bdf8" opacity="0.6" />
-                <path id="body-arteries" d="M 100 65 L 100 200 M 100 85 L 72 85 M 100 85 L 128 85 M 100 200 L 88 222 L 82 380 M 100 200 L 112 222 L 124 380" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" />
+                <path id="skel-legs" d="M 88 222 L 82 300 L 76 380 M 112 222 L 118 300 L 124 380" fill="none" stroke="#cbd5e1" stroke-width="1.8" stroke-linecap="round" />
               </svg>
             </div>
             <div class="legend-bar">
@@ -629,12 +621,13 @@
       const boxEyes = document.getElementById('box-eyes');
       const boxHeart = document.getElementById('box-heart');
 
-      const bodyBrain = document.getElementById('body-brain');
-      const bodyEyes1 = document.getElementById('body-eyes');
-      const bodyEyes2 = document.getElementById('body-eyes-2');
-      const bodyNeck = document.getElementById('body-neck');
-      const bodyHeart = document.getElementById('body-heart');
-      const bodyArteries = document.getElementById('body-arteries');
+      // Skeleton SVG elements
+      const skelHead = document.getElementById('skel-head');
+      const skelSpine = document.getElementById('skel-spine');
+      const skelRibs = document.getElementById('skel-ribs');
+      const skelPelvis = document.getElementById('skel-pelvis');
+      const skelArms = document.getElementById('skel-arms');
+      const skelLegs = document.getElementById('skel-legs');
 
       const TOTAL_NODES = 10000;
       let nodes = new Float32Array(TOTAL_NODES * 3);
@@ -721,9 +714,9 @@
       }
 
       function getRedShade(severityFactor) {
-        const red = Math.round(255 - severityFactor * 140);
-        const green = Math.round(110 * (1 - severityFactor));
-        const blue = Math.round(110 * (1 - severityFactor));
+        const red = Math.round(255 - severityFactor * 100);
+        const green = Math.round(180 * (1 - severityFactor));
+        const blue = Math.round(200 * (1 - severityFactor));
         return `rgb(${red}, ${green}, ${blue})`;
       }
 
@@ -775,14 +768,13 @@
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
 
-        // Update Skeleton SVG elements dynamically
-        bodyBrain.setAttribute('fill', dynamicRed);
-        bodyBrain.setAttribute('opacity', 0.5 + severityFactor * 0.5);
-        bodyEyes1.setAttribute('fill', dynamicRed);
-        bodyEyes2.setAttribute('fill', dynamicRed);
-        bodyNeck.setAttribute('fill', dynamicRed);
-        bodyHeart.setAttribute('fill', physics.gForce > 50 ? dynamicRed : '#38bdf8');
-        bodyArteries.setAttribute('stroke', physics.gForce > 50 ? dynamicRed : '#38bdf8');
+        // Update Skeleton SVG stroke colors dynamically
+        skelHead.setAttribute('stroke', dynamicRed);
+        skelSpine.setAttribute('stroke', dynamicRed);
+        skelRibs.setAttribute('stroke', dynamicRed);
+        skelPelvis.setAttribute('stroke', dynamicRed);
+        skelArms.setAttribute('stroke', physics.gForce > 40 ? dynamicRed : '#cbd5e1');
+        skelLegs.setAttribute('stroke', physics.gForce > 80 ? dynamicRed : '#cbd5e1');
 
         if (physics.gForce < 20) {
           severityBadge.textContent = 'STATUS: LIGHT BUMP (SUB-CONCUSSIVE)';
@@ -869,13 +861,12 @@
         severityBadge.textContent = 'STATUS: NORMAL';
         severityBadge.style.color = '#34d399';
 
-        bodyBrain.setAttribute('fill', '#38bdf8');
-        bodyBrain.setAttribute('opacity', '0.6');
-        bodyEyes1.setAttribute('fill', '#38bdf8');
-        bodyEyes2.setAttribute('fill', '#38bdf8');
-        bodyNeck.setAttribute('fill', '#38bdf8');
-        bodyHeart.setAttribute('fill', '#38bdf8');
-        bodyArteries.setAttribute('stroke', '#38bdf8');
+        skelHead.setAttribute('stroke', '#cbd5e1');
+        skelSpine.setAttribute('stroke', '#cbd5e1');
+        skelRibs.setAttribute('stroke', '#cbd5e1');
+        skelPelvis.setAttribute('stroke', '#cbd5e1');
+        skelArms.setAttribute('stroke', '#cbd5e1');
+        skelLegs.setAttribute('stroke', '#cbd5e1');
 
         affectBrain.textContent = 'No trauma. Clear focus, normal memory, and healthy brain activity.';
         affectNeck.textContent = 'No neck strain or stiffness. Muscles and posture are fully relaxed.';
