@@ -606,7 +606,6 @@
       const energyValEl = document.getElementById('energy-val');
       const gForceValEl = document.getElementById('g-force-val');
       const recoveryValEl = document.getElementById('recovery-val');
-      const lastImpactValEl = document.getElementById('last-impact-val');
       const resetBtn = document.getElementById('reset-brain-btn');
 
       const severityBadge = document.getElementById('severity-badge');
@@ -762,7 +761,6 @@
         brainCapacityEl.textContent = `${remainingActive.toLocaleString()} / 10,000 (${capacityPercent}%)`;
         energyValEl.textContent = `${physics.joules.toLocaleString()} Joules`;
         gForceValEl.textContent = `${physics.gForce.toLocaleString()} G`;
-        lastImpactValEl.textContent = name;
 
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
@@ -856,7 +854,6 @@
         brainCapacityEl.textContent = '10,000 / 10,000 (100%)';
         energyValEl.textContent = '0 Joules';
         gForceValEl.textContent = '0 G';
-        lastImpactValEl.textContent = 'None';
         recoveryValEl.textContent = 'None Required';
 
         severityBadge.textContent = 'STATUS: NORMAL';
