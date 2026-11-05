@@ -509,7 +509,7 @@
                 <ellipse id="body-brain" cx="100" cy="38" rx="11" ry="13" fill="#38bdf8" opacity="0.6" />
                 <circle id="body-eyes" cx="94" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
                 <circle id="body-eyes-2" cx="106" cy="34" r="2.5" fill="#38bdf8" opacity="0.6" />
-                <path id="body-neck" d="M 97 65 L 103 65 L 103 75 L 97 75 Z" fill="#38bdf8" opacity="0.6" />
+                <rect id="body-neck" x="97" y="65" width="6" height="10" fill="#38bdf8" opacity="0.6" />
                 <circle id="body-heart" cx="105" cy="98" r="7" fill="#38bdf8" opacity="0.6" />
                 <path id="body-arteries" d="M 100 65 L 100 200 M 100 85 L 72 85 M 100 85 L 128 85 M 100 200 L 88 222 L 82 380 M 100 200 L 112 222 L 124 380" stroke="#38bdf8" stroke-width="1.5" opacity="0.5" />
               </svg>
@@ -766,6 +766,7 @@
         const severityFactor = Math.min(physics.gForce / 140, 1.0);
         const dynamicRed = getRedShade(severityFactor);
 
+        // Update Skeleton SVG elements dynamically
         bodyBrain.setAttribute('fill', dynamicRed);
         bodyBrain.setAttribute('opacity', 0.5 + severityFactor * 0.5);
         bodyEyes1.setAttribute('fill', dynamicRed);
